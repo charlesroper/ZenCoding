@@ -1,0 +1,40 @@
+[
+{
+    "args": {}, 
+    "command": "zen_as_you_type", 
+    "context": [
+      {
+        "key": "selector",
+        "match_all": true, 
+        "operand": "text.html, source.css, text.xml", 
+        "operator": "equal"
+      }
+    ], 
+    "keys": [
+      "ctrl+alt+enter"
+    ]
+},
+{
+ //  "context": [
+      // {
+      //   "key": "selector", 
+      //   "match_all": true, 
+      //   "operand": "text.html, text.xml", 
+      //   "operator": "equal"
+      // }, 
+      // {
+      //   "key": "selection_empty", 
+      //   "match_all": true, 
+      //   "operand": true, 
+      //   "operator": "equal"
+      // }
+   // ], 
+    "keys": [
+      "shift+ctrl+j"
+    ],
+    "args": {
+      "action": "split_join_tag", 
+      "profile_name": null
+    }, 
+    "command": "run_zen_action" }
+]
