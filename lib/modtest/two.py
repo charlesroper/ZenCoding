@@ -1,2 +1,0 @@
-print 'two'
-import one

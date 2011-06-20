@@ -124,6 +124,7 @@ def process_tag(item, profile, level):
 	# print item.name, profile
 	# import pprint
 	# pprint profile
+
 	if item.name.lower() not in VALID_TAGS:
 		raise ZenInvalidTag("%r is an invalid tag" % item.name )
 	

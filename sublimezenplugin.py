@@ -13,20 +13,20 @@ import time
 import sublime
 import sublime_plugin 
 
+# Zen Coding libs
+
+from zencoding.parser.abbreviation import ZenInvalidAbbreviation
+
 # Dynamic Snippet Base Class
 from dynamicsnippets import SnippetsAsYouTypeBase
 
-# Zen Init
-# This module sets the sys.path to enable importing of zencoding
+# this 
 from sublimezen import ( css_snippets, decode, expand_abbr, editor, css_sorted,
                          css_property_values, multi_selectable, track_back, 
                          find_css_property )
 
-# Zen Coding libs
 import zencoding
 import zencoding.actions
-
-from zencoding.parser.abbreviation import ZenInvalidAbbreviation
 
 ################################### CONSTANTS ##################################
 
@@ -64,7 +64,8 @@ class SetHtmlSyntaxAndInsertSkel(sublime_plugin.TextCommand):
                                  'Packages/HTML/HTML.tmlanguage' )
         
         view.settings().set('syntax', syntax)
-        view.run_command('insert_snippet', {"contents": expand_abbr('html:%s' % doctype)})
+        view.run_command( 'insert_snippet', 
+                          {"contents": expand_abbr('html:%s' % doctype)} )
 
 class Context(sublime_plugin.EventListener):
     @staticmethod
@@ -85,14 +86,7 @@ class Context(sublime_plugin.EventListener):
                 return result
 
     def on_query_context(self, view, key, op, operand, match_all):
-        if key == "is_zen":
-            if DEBUG: print 'operand', operand
-            if Context.check_context(view):
-                return True
-
-        return False
-
-    def on_query_context(self, view, key, op, operand, match_all):
+        # sometimes None was getting passed
         view = view or sublime.active_window().active_view()
 
         if DEBUG: print 'on_query_context', key

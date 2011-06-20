@@ -15,9 +15,31 @@ from itertools import chain
 from collections import defaultdict
 from functools import wraps
 
-# 3rd Party Libs
-import zenpath
+################################## ZEN IMPORTS #################################
+
+# Some may not be needed, and maybe not any at all, but in version 0.6 of Zen
+# there were some runtime imports, so get these all in sys.modules now before
+# the current directory '.' changes. Saves having to put an absolute path in
+# `sys.path`
+
 import zencoding
+import zencoding.actions
+import zencoding.actions.basic
+import zencoding.actions.token
+import zencoding.actions.traverse
+import zencoding.filters
+import zencoding.html_matcher
+import zencoding.interface
+import zencoding.interface.editor
+import zencoding.interface.file
+import zencoding.parser
+import zencoding.parser.abbreviation
+import zencoding.parser.css
+import zencoding.parser.utils
+import zencoding.parser.xml
+import zencoding.resources
+import zencoding.utils
+import zencoding.zen_settings
 
 from zencoding.zen_settings import zen_settings
 from zencoding.interface.editor import ZenEditor
