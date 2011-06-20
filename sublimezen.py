@@ -12,28 +12,11 @@ import sublime
 
 from os.path import join
 from itertools import chain
-from collections import defaultdict 
+from collections import defaultdict
 from functools import wraps
 
-################################### SYS PATH ###################################
-
-def get_package_name():
-    if os.path.isabs(__file__):
-        pkg_folder = os.path.dirname(__file__)
-    else:
-        pkg_folder = os.getcwd()
-
-    return os.path.basename(pkg_folder)
-
-path = join(sublime.packages_path(), get_package_name(), 'lib')
-
-if path not in sys.path:
-    # Why use an absolute path instead of a relative one?
-    # In 0.6 at least there were some runtime imports that weren't resolving
-    # properly once the current directory had been swept out.
-    sys.path.append( path )
-
 # 3rd Party Libs
+import zenpath
 import zencoding
 
 from zencoding.zen_settings import zen_settings
@@ -52,6 +35,7 @@ def decode(s):
     return s.decode(ENCODING, 'ignore')
 
 def expand_abbr(abbr, syntax = None, selection=True):
+    # TODO: possibly create as an editor function
     syntax = syntax or editor.get_syntax()
     profile_name = editor.get_profile_name()
     content = zencoding.expand_abbreviation(abbr, syntax, profile_name)
@@ -65,17 +49,17 @@ css_sorted = sorted(tuple(map(decode, i)) for i in css_snippets.items())
 def css_property_values():
     expanded = {}
     property_values = defaultdict(dict)
-    
+
     for k in [k for k in css_snippets if ':' in k]:
         prop, value =  k.split(':') # abbreviation
-    
+
         if prop not in expanded:
             prop = expanded[prop] = css_snippets[prop].split(':')[0]
         else:
             prop = expanded[prop]
-        
+
         property_values[prop][value] = ( css_snippets[k].split(':')[1].rstrip(';'))
-    
+
     return property_values
 # apply has been removed in 3.2
 css_property_values = css_property_values()
@@ -104,9 +88,8 @@ def selections_context(view):
 
     return contexter(), merge
 
-def multi_selectable_zen(f):
+def multi_selectable(f):
     @wraps(f)
-
     def wrapper(self, edit, **args):
         contexter, merge = selections_context(self.view)
         f(self, self.view, contexter, args)

@@ -8,6 +8,20 @@ Filter that produces HTML tree
 '''
 import zencoding.utils
 
+from zencoding.parser.abbreviation import ZenInvalidAbbreviation
+
+def VALID_TAGS():
+	from zencoding.html_matcher import empty, block, inline, close_self	
+	valid = {}
+
+	for d in (empty, block, inline, close_self):
+		valid.update(d)
+
+	return valid
+VALID_TAGS = VALID_TAGS()
+
+class ZenInvalidTag(ZenInvalidAbbreviation): pass
+
 child_token = '${child}'
 tabstops = [0]
 
@@ -88,7 +102,6 @@ def process_snippet(item, profile, level):
 	
 	return item
 
-
 def has_block_sibling(item):
 	"""
 	Test if passed node has block-level sibling element
@@ -107,6 +120,12 @@ def process_tag(item, profile, level):
 	if not item.name:
 		# looks like it's root element
 		return item
+	
+	# print item.name, profile
+	# import pprint
+	# pprint profile
+	if item.name.lower() not in VALID_TAGS:
+		raise ZenInvalidTag("%r is an invalid tag" % item.name )
 	
 	attrs = make_attributes_string(item, profile) 
 	cursor = profile['place_cursor'] and zencoding.utils.get_caret_placeholder() or ''
