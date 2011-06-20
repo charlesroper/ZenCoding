@@ -20,17 +20,17 @@ from zencoding.parser.abbreviation import ZenInvalidAbbreviation
 # Dynamic Snippet Base Class
 from dynamicsnippets import SnippetsAsYouTypeBase
 
-# this 
+import zencoding
+import zencoding.actions
+
 from sublimezen import ( css_snippets, decode, expand_abbr, editor, css_sorted,
                          css_property_values, multi_selectable, track_back, 
                          find_css_property )
 
-import zencoding
-import zencoding.actions
 
 ################################### CONSTANTS ##################################
 
-DEBUG    = 1 
+DEBUG    = 0
 
 #################################### AUTHORS ###################################
 
