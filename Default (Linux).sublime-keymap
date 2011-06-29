@@ -115,6 +115,39 @@
       "key": "selector"
     }
   ]
+},
+{
+    "args": {}, 
+    "command": "zen_css_mnemonic", 
+    "context": [
+      {
+        "key": "selector", 
+        "match_all": true, 
+        "operand": "source.css", 
+        "operator": "equal"
+      }
+    ], 
+    "keys": [
+      "f1"
+    ]
+  }, 
+  {
+    //"argr_comment": "TODO", 
+    "args": {
+      "prop_value":true
+    },
+    "command": "zen_css_mnemonic", 
+    "context": [
+      {
+        "key": "selector", 
+        "match_all": true, 
+        "operand": "meta.property-value.css", 
+        "operator": "equal"
+      }
+    ], 
+    "keys": [
+      "f1"
+    ]
 }, 
 {
   "keys": [
@@ -136,8 +169,8 @@
 }, 
 {
   "keys": [
-    "tab"
-  ], 
+    ""
+  ],
  
   "__doc__": "Find from current caret position and expand abbreviation in editor\n\n\n@param syntax: Syntax type (html, css, etc.)\n@type syntax: str\n@param profile_name: Output profile name (html, xml, xhtml)\n@type profile_name: str\n@return: True if abbreviation was expanded successfully", 
  
@@ -166,12 +199,13 @@
       "operand": true, 
       "operator": "equal", 
       "key": "is_zen"
-    }, 
-    {
-      "operand": 1, 
-      "operator": "equal", 
-      "key": "num_selections"
     }
+    //, 
+  //  {
+  //    "operand": 1, 
+  //    "operator": "equal", 
+  //    "key": "num_selections"
+  //  }
   ]
 }, 
   {
@@ -262,7 +296,7 @@
 }, 
 {
   "keys": [
-    "enter"
+    "enterTODO"
   ], 
   "__doc__": "Inserts newline character with proper indentation\n\n\n@param mode: Syntax mode (only 'html' is implemented)\n@type mode: str", 
   "args": {
@@ -669,5 +703,13 @@
       "match_all": true, 
       "key": "following_text"
     }
-  ]}
-]
+  ]},
+  {
+  "keys": [
+    "ctrl+alt+shift+z"
+  ], 
+  "args": {
+    "doctype": "5"
+  }, 
+  "command": "zen_tests"
+}]

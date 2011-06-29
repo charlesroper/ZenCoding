@@ -10,7 +10,7 @@ import os
 import re
 import pprint
 
-from zencoding import utils
+from zencoding import utils, expand_abbreviation
 
 # Sublime modules
 try:
@@ -26,6 +26,15 @@ def active_view():
 ################################################################################
 
 class ZenEditor():
+    def expand_abbr(self, abbr, syntax = None, selection=True):
+
+        syntax       = syntax or self.get_syntax()
+        profile_name = self.get_profile_name()
+        content      = expand_abbreviation(abbr, syntax, profile_name)
+
+        return ( self.add_placeholders(content, selection=selection)
+                     .decode('utf8', 'ignore') )
+    
     def __init__(self):
         pass
 
@@ -36,6 +45,7 @@ class ZenEditor():
         @param context: context object
         """
         print 'setting context', repr(context)
+
 
     def get_selection_range(self):
         """

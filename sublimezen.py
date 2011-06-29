@@ -44,6 +44,8 @@ import zencoding.zen_settings
 from zencoding.zen_settings import zen_settings
 from zencoding.interface.editor import ZenEditor
 
+from zentrackers import back_track, track_regex, track_scope
+
 ################################### CONSTANTS ##################################
 
 CSS_PROP = 'meta.property-name'
@@ -52,22 +54,24 @@ ENCODING = 'utf8' # TODO
 ##################################### INIT #####################################
 
 editor = ZenEditor()
+expand_abbr = editor.expand_abbr
 
 def decode(s):
     return s.decode(ENCODING, 'ignore')
 
-def expand_abbr(abbr, syntax = None, selection=True):
-    # TODO: possibly create as an editor function
-    syntax = syntax or editor.get_syntax()
-    profile_name = editor.get_profile_name()
-    content = zencoding.expand_abbreviation(abbr, syntax, profile_name)
-    return decode(editor.add_placeholders(content, selection=selection))
-
 ###################################### CSS #####################################
 
-css_snippets = zen_settings['css']['snippets']
+css_snippets = {}
+
+zr = zencoding.resources
+for vocab in zr.VOC_SYSTEM, zr.VOC_USER:
+    for link in zr.create_resource_chain(vocab, 'css', 'snippets'):
+        css_snippets.update(link)
+
+del vocab, link
 css_sorted = sorted(tuple(map(decode, i)) for i in css_snippets.items())
 
+@apply
 def css_property_values():
     expanded = {}
     property_values = defaultdict(dict)
@@ -80,17 +84,15 @@ def css_property_values():
         else:
             prop = expanded[prop]
 
-        property_values[prop][value] = ( css_snippets[k].split(':')[1].rstrip(';'))
+        property_values[prop][value] = ( 
+            css_snippets[k].split(':')[1].rstrip(';'))
 
     return property_values
-# apply has been removed in 3.2
-css_property_values = css_property_values()
 
 ############################### MULTI SELECTIONS ###############################
 
-def selections_context(view):
+def selections_context(view, ctxt_key = '__ctxter__'):
     sels = list(view.sel())
-    ctxt_key = '__ctxter__'
 
     def merge():
         view.sel().clear()
@@ -118,19 +120,25 @@ def multi_selectable(f):
         merge()
     return wrapper
 
-#################################### HELPERS ###################################
+################################### TRACKERS ###################################
 
-def track_back(view, p, cond):
-    for p in xrange(p, view.line(p).begin(), -1):
-        if not cond(view, p):
-            p += 1
-            break
+def find_css_property(view, start_pt):
+    conds   = track_scope(CSS_PROP, False), track_scope(CSS_PROP)
+    regions = back_track(view, start_pt, *conds)
+    return view.substr(regions[-1])
 
-    return p
+def find_tag_start(view, start_pt):
+    regions = back_track(view, start_pt, track_regex('<', False) )
+    return regions[-1].begin()
 
-def find_css_property(view):
-    scoped = lambda v,p: v.match_selector(p, CSS_PROP)
-    end    = track_back(view,view.sel()[0].begin(),lambda v,p: not scoped(v, p))
-    start  = track_back(view, end-1, scoped)
+def find_tag_name(view, start_pt):
+    tag_region = view.find('[a-zA-Z:]+', find_tag_start(view, start_pt))
+    name       = view.substr( tag_region )
+    return name
 
-    return view.substr(sublime.Region(start, end))
+def find_attribute_name(view, start_pt):
+    conds   = track_scope('string'), track_regex('\s|='), track_regex('\S')
+    regions = back_track(view, start_pt, *conds)
+    return view.substr(regions[-1])
+
+################################################################################

@@ -1228,7 +1228,7 @@ class ZenError(Exception):
 		return self.value
 		
 # create default profiles
-setup_profile('xhtml');
-setup_profile('html', {'self_closing_tag': False});
-setup_profile('xml', {'self_closing_tag': True, 'tag_nl': True});
-setup_profile('plain', {'tag_nl': False, 'indent': False, 'place_cursor': False});
+setup_profile('xhtml', {'check_valid' : True});
+setup_profile('html',  {'check_valid' : True,  'self_closing_tag': False});
+setup_profile('xml',   {'check_valid' : False,  'self_closing_tag': True, 'tag_nl': True});
+setup_profile('plain', {'check_valid' : False,  'tag_nl': False, 'indent': False, 'place_cursor': False});
