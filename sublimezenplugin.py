@@ -224,11 +224,11 @@ class ZenListener(sublime_plugin.EventListener):
         # then get warm and fuzzy with css properties
         if view.match_selector(pos, CSS_PROPERTY):
             to_be_replaced = find_css_property(view, pos+1)
-            
-            # Want to be
+
+            # Wants to be something akin to
             # return [to_be_replaced, [ ( v, '%s:$1;$0' % v) ... ]]
             return [ (v, '%s:$1;$0' % v)
-                     for v in sorted(CSS_PROP_VALUES.keys()) if 
+                     for v in sorted(CSS_PROP_VALUES.keys()) if
                      not prefix or v.startswith(prefix[0]) ]
         else:
             return []
