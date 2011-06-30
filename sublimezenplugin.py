@@ -34,8 +34,6 @@ from zenmeta    import ( CSS_PROP_VALUES, HTML_ELEMENTS_ATTRIBUTES,
 
 ################################### CONSTANTS ##################################
 
-DEBUG_LEVEL  = 10
-
 HTML                      = "text.html - source"
 
 HTML_INSIDE_TAG_ANYWHERE  = "text.html meta.tag"
@@ -54,7 +52,6 @@ CSS_VALUE    = 'source.css meta.property-list.css meta.property-value.css'
 
 CSS_ENTITY_SELECTOR = 'source.css meta.selector.css entity.other.attribute-name'
 
-
 #################################### AUTHORS ###################################
 
 __version__     = '1.5.0a'
@@ -66,6 +63,8 @@ __authors__     = ['"Sergey Chikuyonok" <serge.che@gmail.com>'
                    '"Nicholas Dudfield" <ndudfield@gmail.com>']
 
 #################################### LOGGING ###################################
+
+DEBUG_LEVEL  = 10
 
 # TODO: why the fuck doesn't this work
 zen_logger   = logging.getLogger('ZenLogger')
@@ -206,7 +205,7 @@ class ZenListener(sublime_plugin.EventListener):
                     oq_debug('completions: %r' % completions)
                     if completions: return completions
 
-        # Expand Zen expressions such as `d:n+m:a`
+        # Expand Zen expressions such as `d:n+m:a` or `div*5`
         try:
             abbr = zencoding.actions.basic.find_abbreviation(editor)
             oq_debug('abbr: %r' % abbr)
@@ -223,13 +222,25 @@ class ZenListener(sublime_plugin.EventListener):
         # If it wasn't a valid zen css snippet, or the prefix is empty ''
         # then get warm and fuzzy with css properties
         if view.match_selector(pos, CSS_PROPERTY):
-            to_be_replaced = find_css_property(view, pos+1)
+            prefix = find_css_property(view, pos+1)
+            properties = sorted(CSS_PROP_VALUES.keys())
+
+            exacts = [p for p in properties if p.startswith(prefix)]
+
+            if exacts: properties = exacts
+            else: properties = [ p for p in properties if 
+                                 p.startswith(prefix[0].lower()) ]
+
+            oq_debug('css_property prefix: %r properties: %r' % ( prefix, 
+                                                                  properties) )
 
             # Wants to be something akin to
             # return [to_be_replaced, [ ( v, '%s:$1;$0' % v) ... ]]
-            return [ (v, '%s:$1;$0' % v)
-                     for v in sorted(CSS_PROP_VALUES.keys()) if
-                     not prefix or v.startswith(prefix[0]) ]
+            return sorted([(v, '%s:$1;$0' % v) for v in properties])
+                     
+                     #  if
+                     # not prefix or v.startswith(prefix[0]) ], 
+                     # key=lambda v: v.startswith(prefix), v)
         else:
             return []
 
