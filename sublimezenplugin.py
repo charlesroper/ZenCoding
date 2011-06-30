@@ -228,8 +228,10 @@ class ZenListener(sublime_plugin.EventListener):
             exacts = [p for p in properties if p.startswith(prefix)]
 
             if exacts: properties = exacts
-            else: properties = [ p for p in properties if 
-                                 p.startswith(prefix[0].lower()) ]
+            else:      properties = [ p for p in properties if 
+                                      # to allow for fuzzy, which you'll
+                                      # generally start with first letter
+                                      p.startswith(prefix[0].lower()) ]
 
             oq_debug('css_property prefix: %r properties: %r' % ( prefix, 
                                                                   properties) )
