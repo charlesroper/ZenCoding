@@ -1109,6 +1109,7 @@ CSS_PROP_VALUES = {'-moz-binding': [],
  'writing-mode': ['lr-tb', 'tb-rl'],
  'z-index': [],
  'zoom': ['*', 'normal']}
+
 HTML_ELEMENTS_ATTRIBUTES = {'!DOCTYPE': [],
  'a': ['accesskey',
        'charset',
@@ -2882,7 +2883,8 @@ HTML_ELEMENTS_ATTRIBUTES = {'!DOCTYPE': [],
          'tabindex',
          'title',
          'unselectable']}
-HTML_ATTRIBUTES_VALUE = {'abbr': [],
+
+HTML_ATTRIBUTES_VALUES = {'abbr': [],
  'above': [],
  'accept': ['*',
             'application/msexcel',
@@ -3215,3 +3217,4 @@ HTML_ATTRIBUTES_VALUE = {'abbr': [],
  'xml:space': ['preserve'],
  'xmlns': ['http://www.w3.org/1999/xhtml'],
  'z-index': []}
+

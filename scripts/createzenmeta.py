@@ -18,7 +18,7 @@ from pyquery import PyQuery as Q
 LISTINGS = (
  ('CSS_PROP_VALUES'         ,  'property[name]' ,  'value'),
  ('HTML_ELEMENTS_ATTRIBUTES',  'element[name]'  ,  'attribute-ref'),
- ('HTML_ATTRIBUTES_VALUE'   ,  'attribute[name]',  'value') )
+ ('HTML_ATTRIBUTES_VALUES'   ,  'attribute[name]',  'value') )
 
 ################################################################################
 
@@ -36,4 +36,4 @@ def dump():
     with open('../zenmeta.py', 'w') as fh:
         for listing in LISTINGS:
             args = (listing[0], pprint.pformat(key_values(*listing)))
-            fh.write('%s = %s\n' % args)
+            fh.write('%s = %s\n\n' % args)

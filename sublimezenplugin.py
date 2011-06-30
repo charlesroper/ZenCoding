@@ -238,7 +238,7 @@ class ZenListener(sublime_plugin.EventListener):
 
             # Wants to be something akin to
             # return [to_be_replaced, [ ( v, '%s:$1;$0' % v) ... ]]
-            return sorted([(v, '%s:$1;$0' % v) for v in properties])
+            return sorted([(prefix, v, '%s:$1;$0' % v) for v in properties])
                      
                      #  if
                      # not prefix or v.startswith(prefix[0]) ], 
