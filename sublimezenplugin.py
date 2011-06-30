@@ -27,7 +27,7 @@ import zencoding.actions
 from sublimezen import ( css_snippets, decode, expand_abbr, editor, css_sorted,
                          css_property_values, multi_selectable, CSS_PROP,
                          find_css_property, find_tag_start, find_tag_name,
-                         find_attribute_name )
+                         find_attribute_name, css_prefixer )
 
 from zenmeta    import ( CSS_PROP_VALUES, HTML_ELEMENTS_ATTRIBUTES,
                          HTML_ATTRIBUTES_VALUES )
@@ -139,27 +139,26 @@ class ZenCssMnemonic(sublime_plugin.WindowCommand):
 
 class ZenListener(sublime_plugin.EventListener):
     def correct_syntax(self, view):
-        return view.match_selector (
-                                 view.sel()[0].b,
-                                 'text.html, text.xml, source.css' )
+        return view.match_selector( view.sel()[0].b,
+                                    'text.html, text.xml, source.css' )
 
     def css_property_values(self, view, prefix, pos):
+        prefix = css_prefixer(view, pos)
         prop   = find_css_property(view, pos)
         # These `values` are sourced from all the fully specified zen abbrevs
         # `d:n` => `display:none` so `display:n{tab}` will yield `none`
         values = css_property_values.get(prop)
 
-        if  values and prefix and prefix in values:
+        if values and prefix and prefix in values:
             oq_debug("zcprop:val prop: %r values: %r" % (prop, values))
-            return values.items()
+            return [(k, v, v) for k,v in sorted(values.items())]
         else:
             # Look for values relating to that property
             # Remove exact matches, so a \t is inserted
-            values = [v for v in CSS_PROP_VALUES.get(prop, []) if v != prefix]
-
+            values =  [v for v in CSS_PROP_VALUES.get(prop, []) if v != prefix]
             if values:
                 debug("zenmeta:val prop: %r values: %r" % (prop, values))
-                return [(v, v) for v in values]
+                return [(prefix, v, v) for v in values]
 
     def html_elements_attributes(self, view, prefix, pos):
         tag         = find_tag_name(view, pos)
@@ -183,27 +182,24 @@ class ZenListener(sublime_plugin.EventListener):
 
         # A mapping of scopes, sub scopes and handlers, first matching of which
         # is used.
-        COMPLETIONS = {
-            'source.css': {
-                CSS_VALUE                 : self.css_property_values,
-            },
-            'text.html' : {
-                HTML_INSIDE_TAG           : self.html_elements_attributes,
-                HTML_INSIDE_TAG_ATTRIBUTE : self.html_attributes_values,
-            }}
+        COMPLETIONS = (
+
+            (CSS, ( (CSS_VALUE,                self.css_property_values) )),
+        
+            (HTML, ( (HTML_INSIDE_TAG,          self.html_elements_attributes),
+                     (HTML_INSIDE_TAG_ATTRIBUTE, self.html_attributes_values) ))
+        )
 
         pos = view.sel()[0].b
 
         # Try to find some contextual abbreviation
-        for root_selector, sub_selectors in COMPLETIONS.items():
-            for sub_selector, handler in sub_selectors.items():
-
-                if view.match_selector(pos,  sub_selector):
-                    c = handler.__name__, prefix
-                    oq_debug('handler: %r prefix: %r' % c)
-                    completions = handler(view, prefix, pos)
-                    oq_debug('completions: %r' % completions)
-                    if completions: return completions
+        for root_selector, (sub_selector, handler) in COMPLETIONS:
+            if view.match_selector(pos,  sub_selector):
+                c = handler.__name__, prefix
+                oq_debug('handler: %r prefix: %r' % c)
+                completions = handler(view, prefix, pos)
+                oq_debug('completions: %r' % completions)
+                if completions: return completions
 
         # Expand Zen expressions such as `d:n+m:a` or `div*5`
         try:
@@ -213,8 +209,7 @@ class ZenListener(sublime_plugin.EventListener):
             if abbr:
                 result = expand_abbr(abbr)
                 oq_debug('abbr: %r result: %r' % (abbr, result))
-
-                return [(abbr, result)]
+                return [(abbr, result if '<' not in result else abbr, result)]
 
         except ZenInvalidAbbreviation:
             pass
@@ -222,9 +217,14 @@ class ZenListener(sublime_plugin.EventListener):
         # If it wasn't a valid zen css snippet, or the prefix is empty ''
         # then get warm and fuzzy with css properties
         if view.match_selector(pos, CSS_PROPERTY):
-            prefix = find_css_property(view, pos+1)
-            properties = sorted(CSS_PROP_VALUES.keys())
+            # behind = view.substr(pos -1)
 
+            # if not behind.isspace() or behind in (';'):
+            #     prefix = find_css_property(view, pos+1)
+            # else:
+            #     prefix = ''
+            prefix = css_prefixer(view, pos)
+            properties = sorted(CSS_PROP_VALUES.keys())
             exacts = [p for p in properties if p.startswith(prefix)]
 
             if exacts: properties = exacts
@@ -234,15 +234,9 @@ class ZenListener(sublime_plugin.EventListener):
                                       p.startswith(prefix[0].lower()) ]
 
             oq_debug('css_property prefix: %r properties: %r' % ( prefix, 
-                                                                  properties) )
+                                                                  properties ))
 
-            # Wants to be something akin to
-            # return [to_be_replaced, [ ( v, '%s:$1;$0' % v) ... ]]
-            return sorted([(prefix, v, '%s:$1;$0' % v) for v in properties])
-                     
-                     #  if
-                     # not prefix or v.startswith(prefix[0]) ], 
-                     # key=lambda v: v.startswith(prefix), v)
+            return sorted((prefix, v, '%s:$1;$0' %  v) for v in properties)
         else:
             return []
 

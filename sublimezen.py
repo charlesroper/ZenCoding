@@ -48,7 +48,7 @@ from zentrackers import back_track, track_regex, track_scope
 
 ################################### CONSTANTS ##################################
 
-CSS_PROP = 'meta.property-name'
+CSS_PROP = 'source.css meta.property-list.css meta.property-name.css'
 ENCODING = 'utf8' # TODO
 
 ##################################### INIT #####################################
@@ -121,6 +121,13 @@ def multi_selectable(f):
     return wrapper
 
 ################################### TRACKERS ###################################
+
+def css_prefixer(view, pt):
+    region = back_track( view, pt, lambda v, p:
+                                   not view.substr(p).isspace() and
+                                   not view.match_selector(p, 'punctuation'))[0]
+
+    return view.substr(region if region is not None else sublime.Region(pt, pt))
 
 def find_css_property(view, start_pt):
     conds   = track_scope(CSS_PROP, False), track_scope(CSS_PROP)
