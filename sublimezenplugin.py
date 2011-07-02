@@ -32,6 +32,8 @@ from sublimezen import ( css_snippets, decode, expand_abbr, editor, css_sorted,
 from zenmeta    import ( CSS_PROP_VALUES, HTML_ELEMENTS_ATTRIBUTES,
                          HTML_ATTRIBUTES_VALUES )
 
+from zencoding.html_matcher import last_match
+
 ################################### CONSTANTS ##################################
 
 HTML                      = "text.html - source"
@@ -92,9 +94,18 @@ class ZenAsYouType(SnippetsAsYouTypeBase):
 class RunZenAction(sublime_plugin.TextCommand):
     @multi_selectable
     def run(self, view, contexter, kw):
-        for selection in contexter:
+
+        for i, selection in enumerate(contexter):
             args = kw.copy()
-            zencoding.run_action(args.pop('action'), editor, **args)
+
+            action = args.pop('action')
+            zencoding.run_action(action, editor, **args)
+            
+            # if action.startswith('match_pair'):
+            #     last_match['opening_tag'] = None
+            #     last_match['closing_tag'] = None
+            #     last_match['start_ix']    = -1
+            #     last_match['end_ix']      = -1
 
 class SetHtmlSyntaxAndInsertSkel(sublime_plugin.TextCommand):
     def run(self, edit, doctype=None):
@@ -151,7 +162,7 @@ class ZenListener(sublime_plugin.EventListener):
 
         if values and prefix and prefix in values:
             oq_debug("zcprop:val prop: %r values: %r" % (prop, values))
-            return [(k, v, v) for k,v in sorted(values.items())]
+            return [(t, d, d) for d,d in sorted(values.items())]
         else:
             # Look for values relating to that property
             # Remove exact matches, so a \t is inserted
@@ -166,7 +177,6 @@ class ZenListener(sublime_plugin.EventListener):
         return [(v, '%s="$1" $2' % v) for v in values]
 
     def html_attributes_values(self, view, prefix, pos):
-        # tag    = find_tag_name(view, pos)
         attr        = find_attribute_name(view, pos)
         values      = HTML_ATTRIBUTES_VALUES.get(attr, [])
         return [(v, v) for v in values]
@@ -184,22 +194,24 @@ class ZenListener(sublime_plugin.EventListener):
         # is used.
         COMPLETIONS = (
 
-            (CSS, ( (CSS_VALUE,                self.css_property_values) )),
-        
-            (HTML, ( (HTML_INSIDE_TAG,          self.html_elements_attributes),
+            (CSS,  ( (CSS_VALUE,                 self.css_property_values), )),
+            (HTML, ( (HTML_INSIDE_TAG,           self.html_elements_attributes),
                      (HTML_INSIDE_TAG_ATTRIBUTE, self.html_attributes_values) ))
         )
 
         pos = view.sel()[0].b
 
-        # Try to find some contextual abbreviation
-        for root_selector, (sub_selector, handler) in COMPLETIONS:
-            if view.match_selector(pos,  sub_selector):
-                c = handler.__name__, prefix
-                oq_debug('handler: %r prefix: %r' % c)
-                completions = handler(view, prefix, pos)
-                oq_debug('completions: %r' % completions)
-                if completions: return completions
+        # Try to find some more specific contextual abbreviation
+        for root_selector, sub_selectors in COMPLETIONS:
+            for sub_selector, handler in sub_selectors:
+                if view.match_selector(pos,  sub_selector):
+
+                    c = handler.__name__, prefix
+                    oq_debug('handler: %r prefix: %r' % c)
+
+                    completions = handler(view, prefix, pos)
+                    oq_debug('completions: %r' % completions)
+                    if completions: return completions
 
         # Expand Zen expressions such as `d:n+m:a` or `div*5`
         try:
@@ -214,40 +226,37 @@ class ZenListener(sublime_plugin.EventListener):
         except ZenInvalidAbbreviation:
             pass
 
-        # If it wasn't a valid zen css snippet, or the prefix is empty ''
-        # then get warm and fuzzy with css properties
-        if view.match_selector(pos, CSS_PROPERTY):
-            # behind = view.substr(pos -1)
+        # If it wasn't a valid Zen css snippet, or the prefix is empty ''
+        # then get warm and fuzzy with css properties.
 
-            # if not behind.isspace() or behind in (';'):
-            #     prefix = find_css_property(view, pos+1)
-            # else:
-            #     prefix = ''
-            prefix = css_prefixer(view, pos)
+        # TODO, before or after this, fuzz directly against the zen snippets
+        # eg  `tjd` matching `tj:d` to expand `text-justify:distribute;`
+
+        if view.match_selector(pos, CSS_PROPERTY):
+            # Use this to get non \w based prefixes
+            prefix     = css_prefixer(view, pos)
             properties = sorted(CSS_PROP_VALUES.keys())
-            exacts = [p for p in properties if p.startswith(prefix)]
+            exacts     = [p for p in properties if p.startswith(prefix)]
 
             if exacts: properties = exacts
-            else:      properties = [ p for p in properties if 
-                                      # to allow for fuzzy, which you'll
+            else:      properties = [ p for p in properties if
+                                      # to allow for fuzzy, which will
                                       # generally start with first letter
                                       p.startswith(prefix[0].lower()) ]
 
-            oq_debug('css_property prefix: %r properties: %r' % ( prefix, 
+            oq_debug('css_property prefix: %r properties: %r' % ( prefix,
                                                                   properties ))
 
-            return sorted((prefix, v, '%s:$1;$0' %  v) for v in properties)
+            return sorted((prefix, v, '%s:$0;' %  v) for v in properties)
         else:
             return []
 
     @staticmethod
     def check_context(view):
-        abbr = zencoding.actions.basic.find_abbreviation(editor)
-
+        abbr        =       zencoding.actions.basic.find_abbreviation(editor)
         if abbr:
-            try: result = expand_abbr(abbr)
-            except ZenInvalidAbbreviation: return None
-
+            try:            result = expand_abbr(abbr)
+            except          ZenInvalidAbbreviation: return None
             if result:
                 return result
 
