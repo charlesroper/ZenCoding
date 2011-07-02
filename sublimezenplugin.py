@@ -176,9 +176,10 @@ class ZenListener(sublime_plugin.EventListener):
             values =  [v for v in CSS_PROP_VALUES.get(prop, []) if v != prefix]
             if values:
                 debug("zenmeta:val prop: %r values: %r" % (prop, values))
-                return [(prefix, v, v) for v in values]
+                return [(prefix, v, v) if prefix else (v, v) for v in values]
 
     def html_elements_attributes(self, view, prefix, pos):
+        print `prefix`
         tag         = find_tag_name(view, pos)
         values      = HTML_ELEMENTS_ATTRIBUTES.get(tag, [])
         return [(v, '%s="$1" $2' % v) for v in values]
@@ -254,7 +255,8 @@ class ZenListener(sublime_plugin.EventListener):
             oq_debug('css_property prefix: %r properties: %r' % ( prefix,
                                                                   properties ))
 
-            return sorted((prefix, v, '%s:$0;' %  v) for v in properties)
+            return sorted( ((prefix, ) if prefix else ()) + (v, '%s:$1;' %  v)
+                            for v in properties )
         else:
             return []
 

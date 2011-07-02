@@ -279,7 +279,7 @@
 }, 
 {
   "keys": [
-    "ctrl+shift+period"
+    "ctrl+>"
   ], 
   "args": {
     "action": "increment_number_by_10"
