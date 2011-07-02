@@ -305,11 +305,11 @@ def insert_formatted_newline(editor, mode='html'):
 		pair = html_matcher.get_tags(editor.get_content(), editor.get_caret_pos(), editor.get_profile_name())
 		
 		if pair[0] and pair[1] and pair[0].type == 'tag' and pair[0].end == caret_pos and pair[1].start == caret_pos:
-			editor.replace_content(nl + pad + zencoding.utils.get_caret_placeholder() + nl, caret_pos)
+			editor.replace_content(nl + pad + zencoding.utils.get_caret_placeholder() + nl, caret_pos, zero_stops=True)
 		else:
-			editor.replace_content(nl, caret_pos)
+			editor.replace_content(nl, caret_pos, zero_stops=True)
 	else:
-		editor.replace_content(nl, caret_pos)
+		editor.replace_content(nl, caret_pos, zero_stops=True)
 		
 	return True
 

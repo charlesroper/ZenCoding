@@ -306,12 +306,35 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "text.html", 
-      "operator": "equal", 
+      "key": "selector", 
       "match_all": true, 
-      "key": "selector"
+      "operand": "punctuation.definition.tag.html, meta.scope.between-tag-pair.html, punctuation.definition.tag.begin.html", 
+      "operator": "equal"
+    }, 
+    {
+      "key": "setting.auto_match_enabled", 
+      "operand": true, 
+      "operator": "equal"
+    }, 
+    {
+      "key": "selection_empty", 
+      "match_all": true, 
+      "operand": true, 
+      "operator": "equal"
+    }, 
+    {
+      "key": "following_text", 
+      "match_all": true, 
+      "operand": "^<$", 
+      "operator": "not_regex_contains"
+    }, 
+    {
+      "key": "preceding_text", 
+      "match_all": true, 
+      "operand": ">$", 
+      "operator": "regex_contains"
     }
-  ]
+  ] 
 }, 
 {
   "keys": [

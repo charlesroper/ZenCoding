@@ -110,7 +110,7 @@ class ZenEditor():
         view = active_view()
         return view.substr(view.line(view.sel()[0]))
 
-    def replace_content(self, value, start=None, end=None):
+    def replace_content(self, value, start=None, end=None, zero_stops=False):
         """
         Replace editor's content or it's part (from *start* to
         *end* index). If *value* contains
@@ -140,7 +140,8 @@ class ZenEditor():
         if end is None: end = start
 
         self.create_selection(start, end)
-        value = self.add_placeholders(value, selection=0)
+        
+        value = self.add_placeholders(value, selection=0, explicit_zero=zero_stops)
 
         if value.endswith('\n'):
             for sel in view.sel():
@@ -210,8 +211,8 @@ class ZenEditor():
         view = active_view()
         return view.substr(view.sel()[0]) if view.sel() else ''
 
-    def add_placeholders(self, text, selection=True):
-        _ix = [1000]
+    def add_placeholders(self, text, selection=True, explicit_zero=False):
+        _ix = [-1 if explicit_zero else 1000]
 
         def get_ix(m):
             _ix[0] += 1
