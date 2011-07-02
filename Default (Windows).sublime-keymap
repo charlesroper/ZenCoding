@@ -4,7 +4,7 @@
     "ctrl+alt+shift+h"
   ], 
   "args": {
-    "doctype": "5"
+    "doctype": "xt"
   }, 
   "command": "set_html_syntax_and_insert_skel"
 },
@@ -49,7 +49,7 @@
 },
 {
   "keys": [
-    "ctrl+alt+comma"
+    "ctrl+alt+9"
   ], 
   "args": {
     "action": "decrement_number_by_01"
@@ -57,7 +57,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "source.css meta.property-list.css meta.property-value.css constant.numeric.css", 
+      "operand": "source.css meta.property-list.css meta.property-value.css", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -66,7 +66,7 @@
 }, 
 {
   "keys": [
-    "ctrl+comma"
+    "ctrl+9"
   ], 
   "args": {
     "action": "decrement_number_by_1"
@@ -74,7 +74,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "source.css meta.property-list.css meta.property-value.css constant.numeric.css", 
+      "operand": "source.css meta.property-list.css meta.property-value.css", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -83,7 +83,7 @@
 }, 
 {
   "keys": [
-    "ctrl+shift+comma"
+    "ctrl+alt+shift+9"
   ], 
   "args": {
     "action": "decrement_number_by_10"
@@ -91,7 +91,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "source.css meta.property-list.css meta.property-value.css constant.numeric.css", 
+      "operand": "source.css meta.property-list.css meta.property-value.css", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -100,7 +100,7 @@
 }, 
 {
   "keys": [
-    "TODO"
+    "ctrl+shift+alt+6"
   ], 
   "__doc__": "Encodes/decodes image under cursor to/from base64\n\n@since: 0.65", 
   "args": {
@@ -236,7 +236,7 @@
 //    }, 
 //    "command": "run_zen_action", 
 //    "context": [{
-//      "operand": "source.css meta.property-list.css meta.property-value.css constant.numeric.css", 
+//      "operand": "source.css meta.property-list.css meta.property-value.css", 
 //      "operator": "equal", 
 //      "match_all": true, 
 //      "key": "selector"
@@ -245,7 +245,7 @@
  
 {
   "keys": [
-    "ctrl+alt+period"
+    "ctrl+alt+0"
   ], 
   "args": {
     "action": "increment_number_by_01"
@@ -253,7 +253,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "source.css meta.property-list.css meta.property-value.css constant.numeric.css", 
+      "operand": "source.css meta.property-list.css meta.property-value.css", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -262,7 +262,7 @@
 }, 
 {
   "keys": [
-    "ctrl+period"
+    "ctrl+0"
   ], 
   "args": {
     "action": "increment_number_by_1"
@@ -270,7 +270,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "source.css meta.property-list.css meta.property-value.css constant.numeric.css", 
+      "operand": "source.css meta.property-list.css meta.property-value.css", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -279,7 +279,7 @@
 }, 
 {
   "keys": [
-    "ctrl+>"
+    "ctrl+alt+shift+0"
   ], 
   "args": {
     "action": "increment_number_by_10"
@@ -428,7 +428,7 @@
 }, 
 {
   "keys": [
-    "ctrl+comma"
+    "ctrl+,"
   ], 
   "__doc__": "Move caret to previous edit point\n", 
   "args": {
@@ -464,7 +464,7 @@
 }, 
 {
   "keys": [
-    "TODO"
+    "ctrl+shift+u"
   ], 
   "__doc__": "Gracefully removes tag under cursor", 
   "args": {
@@ -518,7 +518,7 @@
 
 {
   "keys": [
-    "ctrl+shift+comma"
+    "ctrl+shift+,"
   ], 
   "args": {
     "action": "select_previous_item"
@@ -594,16 +594,16 @@
 
 {
   "keys": [
-    "ctrl+shift+w"
+    "alt+shift+w"
   ], 
   "__doc__": "Wraps content with abbreviation\n\n\n@param syntax: Syntax type (html, css, etc.)\n@type syntax: str\n@param profile_name: Output profile name (html, xml, xhtml)\n@type profile_name: str", 
-  "args": {
-    "action": "wrap_with_abbreviation", 
-    "profile_name": null, 
-    "abbr": null, 
-    "syntax": null
-  }, 
-  "command": "run_zen_action", 
+  //"args": {
+  //  "action": "wrap_with_abbreviation", 
+  //  "profile_name": null, 
+  //  "abbr": "p", 
+  //  "syntax": null
+  //}, 
+  "command": "wrap_zen_as_you_type", 
   "context": [
     {
       "operand": "text.html, source.css, text.xml", 

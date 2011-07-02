@@ -19,7 +19,7 @@ import sublime_plugin
 from zencoding.parser.abbreviation import ZenInvalidAbbreviation
 
 # Dynamic Snippet Base Class
-from dynamicsnippets import SnippetsAsYouTypeBase
+from dynamicsnippets import CommandsAsYouTypeBase
 
 import zencoding
 import zencoding.actions
@@ -82,14 +82,28 @@ def oq_debug(f):
 
 ########################## DYNAMIC ZEN CODING SNIPPETS #########################
 
-class ZenAsYouType(SnippetsAsYouTypeBase):
+class ZenAsYouType(CommandsAsYouTypeBase):
     input_message = "Enter Koan: "
 
-    def create_snippet(self, abbr):
+    def filter_input(self, abbr):
         try:
             return expand_abbr(abbr)
         except ZenInvalidAbbreviation:
             "dont litter the console"
+
+class WrapZenAsYouType(CommandsAsYouTypeBase):
+    input_message = "Enter Haiku: "
+
+    def run_command(self, view, cmd_input):
+        try:
+            expand_abbr(cmd_input)
+        except ZenInvalidAbbreviation, e:
+            return False
+
+        # view.cmd.run_zen_action(action="wrap_with_abbreviation", abbr=cmd_input)
+        view.run_command( 
+            'run_zen_action',
+            dict(action="wrap_with_abbreviation", abbr=cmd_input) )
 
 class RunZenAction(sublime_plugin.TextCommand):
     last_matches = []
@@ -103,16 +117,14 @@ class RunZenAction(sublime_plugin.TextCommand):
             args = kw.copy()
             action = args.pop('action')
 
-            if ( match_pair and self.last_matches and 
+            if ( match_pair and self.last_matches and
                  not i >= len(self.last_matches) ):
                 last_match.update(self.last_matches[i])
 
             zencoding.run_action(action, editor, **args)
 
             if match_pair: matches.append(last_match.copy())
-
-        if match_pair:
-            self.last_matches = matches
+        if match_pair: self.last_matches = matches
 
 class SetHtmlSyntaxAndInsertSkel(sublime_plugin.TextCommand):
     def run(self, edit, doctype=None):
@@ -182,7 +194,7 @@ class ZenListener(sublime_plugin.EventListener):
         print `prefix`
         tag         = find_tag_name(view, pos)
         values      = HTML_ELEMENTS_ATTRIBUTES.get(tag, [])
-        return [(v, '%s="$1" $2' % v) for v in values]
+        return [(v, '%s="$1"' % v) for v in values]
 
     def html_attributes_values(self, view, prefix, pos):
         attr        = find_attribute_name(view, pos)
@@ -254,7 +266,6 @@ class ZenListener(sublime_plugin.EventListener):
 
             oq_debug('css_property prefix: %r properties: %r' % ( prefix,
                                                                   properties ))
-
             return sorted( ((prefix, ) if prefix else ()) + (v, '%s:$1;' %  v)
                             for v in properties )
         else:
