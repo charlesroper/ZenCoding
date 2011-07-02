@@ -100,7 +100,7 @@ def selections_context(view, ctxt_key = '__ctxter__'):
             view.sel().add(sel)
 
         view.erase_regions(ctxt_key)
-
+    
     def contexter():
         for sel in reversed(sels):
             view.sel().clear()
@@ -109,14 +109,14 @@ def selections_context(view, ctxt_key = '__ctxter__'):
             yield sel # and run user code
             view.add_regions ( ctxt_key,
                 (view.get_regions(ctxt_key) + list(view.sel())) , '')
-
+    
     return contexter(), merge
 
 def multi_selectable(f):
     @wraps(f)
     def wrapper(self, edit, **args):
         contexter, merge = selections_context(self.view)
-        f(self, self.view, contexter, args)
+        f(self, self.view, contexter, len(self.view.sel()), args)
         merge()
     return wrapper
 

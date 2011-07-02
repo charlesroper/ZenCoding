@@ -39,7 +39,7 @@ from zencoding.html_matcher import last_match
 HTML                      = "text.html - source"
 
 HTML_INSIDE_TAG_ANYWHERE  = "text.html meta.tag"
-HTML_INSIDE_TAG           = "text.html meta.tag - string"
+HTML_INSIDE_TAG           = "text.html meta.tag - string - punctuation"
 HTML_INSIDE_TAG_ATTRIBUTE = "text.html meta.tag string"
 
 HTML_NOT_INSIDE_TAG       = 'text.html - meta.tag'
@@ -91,21 +91,29 @@ class ZenAsYouType(SnippetsAsYouTypeBase):
         except ZenInvalidAbbreviation:
             "dont litter the console"
 
+
 class RunZenAction(sublime_plugin.TextCommand):
+    last_matches = []
+
     @multi_selectable
-    def run(self, view, contexter, kw):
+    def run(self, view, contexter, nsels, kw):
+        matches = []
+        match_pair = kw['action'].startswith('match_pair')
 
         for i, selection in enumerate(contexter):
             args = kw.copy()
-
             action = args.pop('action')
+
+            if ( match_pair and self.last_matches and 
+                 not i >= len(self.last_matches) ):
+                last_match.update(self.last_matches[i])
+
             zencoding.run_action(action, editor, **args)
-            
-            # if action.startswith('match_pair'):
-            #     last_match['opening_tag'] = None
-            #     last_match['closing_tag'] = None
-            #     last_match['start_ix']    = -1
-            #     last_match['end_ix']      = -1
+
+            if match_pair: matches.append(last_match.copy())
+
+        if match_pair:
+            self.last_matches = matches
 
 class SetHtmlSyntaxAndInsertSkel(sublime_plugin.TextCommand):
     def run(self, edit, doctype=None):
