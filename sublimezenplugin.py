@@ -91,7 +91,6 @@ class ZenAsYouType(SnippetsAsYouTypeBase):
         except ZenInvalidAbbreviation:
             "dont litter the console"
 
-
 class RunZenAction(sublime_plugin.TextCommand):
     last_matches = []
 

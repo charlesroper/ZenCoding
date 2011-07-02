@@ -296,7 +296,7 @@
 }, 
 {
   "keys": [
-    "enterTODO"
+    "enter"
   ], 
   "__doc__": "Inserts newline character with proper indentation\n\n\n@param mode: Syntax mode (only 'html' is implemented)\n@type mode: str", 
   "args": {

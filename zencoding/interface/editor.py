@@ -137,7 +137,7 @@ class ZenEditor():
         edit = view.begin_edit()
 
         if start is None: start = 0
-        if end is None: end = view.size()
+        if end is None: end = start
 
         self.create_selection(start, end)
         value = self.add_placeholders(value, selection=0)
