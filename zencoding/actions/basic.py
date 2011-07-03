@@ -325,7 +325,7 @@ def select_line(editor):
 	return True
 
 @zencoding.action
-def select_tag_name(editor):
+def match_pair_tagname(editor):
 	"""
 	Moves caret to matching opening or closing tag
 	@param editor: Editor instance
