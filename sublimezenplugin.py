@@ -39,7 +39,7 @@ from zencoding.html_matcher import last_match
 HTML                      = "text.html - source"
 
 HTML_INSIDE_TAG_ANYWHERE  = "text.html meta.tag"
-HTML_INSIDE_TAG           = "text.html meta.tag - string - punctuation"
+HTML_INSIDE_TAG           = "text.html meta.tag - string - meta.scope.between-tag-pair.html"
 HTML_INSIDE_TAG_ATTRIBUTE = "text.html meta.tag string"
 
 HTML_NOT_INSIDE_TAG       = 'text.html - meta.tag'
@@ -101,7 +101,7 @@ class WrapZenAsYouType(CommandsAsYouTypeBase):
             return False
 
         # view.cmd.run_zen_action(action="wrap_with_abbreviation", abbr=cmd_input)
-        view.run_command( 
+        view.run_command (
             'run_zen_action',
             dict(action="wrap_with_abbreviation", abbr=cmd_input) )
 
@@ -188,18 +188,17 @@ class ZenListener(sublime_plugin.EventListener):
             values =  [v for v in CSS_PROP_VALUES.get(prop, []) if v != prefix]
             if values:
                 debug("zenmeta:val prop: %r values: %r" % (prop, values))
-                return [(prefix, v, v) if prefix else (v, v) for v in values]
+                return [(prefix, ':'+v, v) if prefix else (v, ':'+v, v) for v in values]
 
     def html_elements_attributes(self, view, prefix, pos):
-        print `prefix`
         tag         = find_tag_name(view, pos)
         values      = HTML_ELEMENTS_ATTRIBUTES.get(tag, [])
-        return [(v, '%s="$1"' % v) for v in values]
+        return [('@' + v, '%s="$1"' % v) for v in values]
 
     def html_attributes_values(self, view, prefix, pos):
         attr        = find_attribute_name(view, pos)
         values      = HTML_ATTRIBUTES_VALUES.get(attr, [])
-        return [(v, v) for v in values]
+        return [('@=' + v, v) for v in values]
 
     def on_query_completions(self, view, prefix, locations):
         if not self.correct_syntax(view): return []

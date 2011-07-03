@@ -132,7 +132,6 @@
     ]
   }, 
   {
-    //"argr_comment": "TODO", 
     "args": {
       "prop_value":true
     },
@@ -151,7 +150,7 @@
 }, 
 {
   "keys": [
-    "TODO"
+    "ctrl+alt+shift+="
   ], 
   "__doc__": "Evaluates simple math expresison under caret\n@param editor: ZenEditor", 
   "args": {
@@ -160,7 +159,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "text.html, source.css, text.xml", 
+      "operand": "text.html, source.css, text.xml",
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -168,47 +167,6 @@
   ]
 }, 
 {
-  "keys": [
-    ""
-  ],
- 
-  "__doc__": "Find from current caret position and expand abbreviation in editor\n\n\n@param syntax: Syntax type (html, css, etc.)\n@type syntax: str\n@param profile_name: Output profile name (html, xml, xhtml)\n@type profile_name: str\n@return: True if abbreviation was expanded successfully", 
- 
-  "args": {
-    "action": "expand_abbreviation", 
-    "profile_name": null, 
-    "syntax": null
-  }, 
- 
-  "command": "run_zen_action", 
- 
-  "context": [
-    {
-      "operand": "text.xml - meta.tag, text.html - source - meta.tag, punctuation.definition.tag.begin, meta.scope.between-tag-pair.html, source.css, source.js", 
-      "operator": "equal", 
-      "match_all": true, 
-      "key": "selector"
-    }, 
-    {
-      "operand": true, 
-      "operator": "equal", 
-      "match_all": true, 
-      "key": "selection_empty"
-    }, 
-    {
-      "operand": true, 
-      "operator": "equal", 
-      "key": "is_zen"
-    }
-    //, 
-  //  {
-  //    "operand": 1, 
-  //    "operator": "equal", 
-  //    "key": "num_selections"
-  //  }
-  ]
-}, 
-  {
     "keys": [
       "ctrl+alt+n"
     ], 
@@ -224,25 +182,6 @@
       "key": "selector"
     }]
   }, 
-
-//  {
-//    "keys": [
-//      "ctrl+alt+shift+equals"
-//    ], 
-//    "__doc__": "Extract number from current caret position of the <code>editor</code> and\nincrement it by <code>step</code>\n@type editor: ZenCoding\n@param step: Increment step (may be negative)\n@type step: int", 
-//    "args": {
-//      "action": "increment_number", 
-//      "step": 1
-//    }, 
-//    "command": "run_zen_action", 
-//    "context": [{
-//      "operand": "source.css meta.property-list.css meta.property-value.css", 
-//      "operator": "equal", 
-//      "match_all": true, 
-//      "key": "selector"
-//    }]
-//  }, 
- 
 {
   "keys": [
     "ctrl+alt+0"
@@ -375,24 +314,7 @@
 }, 
 {
   "keys": [
-    "TODO"
-  ], 
-  "args": {
-    "action": "match_pair_outward"
-  }, 
-  "command": "run_zen_action", 
-  "context": [
-    {
-      "operand": "text.html, source.css, text.xml", 
-      "operator": "equal", 
-      "match_all": true, 
-      "key": "selector"
-    }
-  ]
-}, 
-{
-  "keys": [
-    "TODO"
+    "ctrl+j"
   ], 
   "__doc__": "Merge lines spanned by user selection. If there's no selection, tries to find\nmatching tags and use them as selection\n", 
   "args": {
@@ -446,7 +368,7 @@
 }, 
 {
   "keys": [
-    "TODO"
+    "ctrl+alt+shift+v"
   ], 
   "__doc__": "Reflect CSS value: takes rule's value under caret and pastes it for the same \nrules with vendor prefixes\n@param editor: ZenEditor", 
   "args": {
@@ -457,7 +379,7 @@
     {
       "operand": "text.html, source.css, text.xml", 
       "operator": "equal", 
-      "match_al.l": true, 
+      "match_all": true, 
       "key": "selector"
     }
   ]
@@ -479,25 +401,7 @@
       "key": "selector"
     }
   ]
-}, 
-{
-  "keys": [
-    "TODO"
-  ], 
-  "__doc__": "Select line under cursor\n", 
-  "args": {
-    "action": "select_line"
-  }, 
-  "command": "run_zen_action", 
-  "context": [
-    {
-      "operand": "text.html, source.css, text.xml", 
-      "operator": "equal", 
-      "match_all": true, 
-      "key": "selector"
-    }
-  ]
-}, 
+},
 {
   "keys": [
     "ctrl+shift+period"

@@ -4,7 +4,7 @@
     "ctrl+alt+shift+h"
   ], 
   "args": {
-    "doctype": "5"
+    "doctype": "xt"
   }, 
   "command": "set_html_syntax_and_insert_skel"
 },
@@ -49,7 +49,7 @@
 },
 {
   "keys": [
-    "ctrl+alt+comma"
+    "ctrl+alt+9"
   ], 
   "args": {
     "action": "decrement_number_by_01"
@@ -57,7 +57,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "source.css meta.property-list.css meta.property-value.css constant.numeric.css", 
+      "operand": "source.css meta.property-list.css meta.property-value.css", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -66,7 +66,7 @@
 }, 
 {
   "keys": [
-    "ctrl+comma"
+    "ctrl+9"
   ], 
   "args": {
     "action": "decrement_number_by_1"
@@ -74,7 +74,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "source.css meta.property-list.css meta.property-value.css constant.numeric.css", 
+      "operand": "source.css meta.property-list.css meta.property-value.css", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -83,7 +83,7 @@
 }, 
 {
   "keys": [
-    "ctrl+shift+comma"
+    "ctrl+alt+shift+9"
   ], 
   "args": {
     "action": "decrement_number_by_10"
@@ -91,7 +91,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "source.css meta.property-list.css meta.property-value.css constant.numeric.css", 
+      "operand": "source.css meta.property-list.css meta.property-value.css", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -100,7 +100,7 @@
 }, 
 {
   "keys": [
-    "TODO"
+    "ctrl+shift+alt+6"
   ], 
   "__doc__": "Encodes/decodes image under cursor to/from base64\n\n@since: 0.65", 
   "args": {
@@ -132,7 +132,6 @@
     ]
   }, 
   {
-    //"argr_comment": "TODO", 
     "args": {
       "prop_value":true
     },
@@ -151,7 +150,7 @@
 }, 
 {
   "keys": [
-    "TODO"
+    "ctrl+alt+shift+="
   ], 
   "__doc__": "Evaluates simple math expresison under caret\n@param editor: ZenEditor", 
   "args": {
@@ -160,7 +159,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "text.html, source.css, text.xml", 
+      "operand": "text.html, source.css, text.xml",
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -168,47 +167,6 @@
   ]
 }, 
 {
-  "keys": [
-    ""
-  ],
- 
-  "__doc__": "Find from current caret position and expand abbreviation in editor\n\n\n@param syntax: Syntax type (html, css, etc.)\n@type syntax: str\n@param profile_name: Output profile name (html, xml, xhtml)\n@type profile_name: str\n@return: True if abbreviation was expanded successfully", 
- 
-  "args": {
-    "action": "expand_abbreviation", 
-    "profile_name": null, 
-    "syntax": null
-  }, 
- 
-  "command": "run_zen_action", 
- 
-  "context": [
-    {
-      "operand": "text.xml - meta.tag, text.html - source - meta.tag, punctuation.definition.tag.begin, meta.scope.between-tag-pair.html, source.css, source.js", 
-      "operator": "equal", 
-      "match_all": true, 
-      "key": "selector"
-    }, 
-    {
-      "operand": true, 
-      "operator": "equal", 
-      "match_all": true, 
-      "key": "selection_empty"
-    }, 
-    {
-      "operand": true, 
-      "operator": "equal", 
-      "key": "is_zen"
-    }
-    //, 
-  //  {
-  //    "operand": 1, 
-  //    "operator": "equal", 
-  //    "key": "num_selections"
-  //  }
-  ]
-}, 
-  {
     "keys": [
       "ctrl+alt+n"
     ], 
@@ -224,28 +182,9 @@
       "key": "selector"
     }]
   }, 
-
-//  {
-//    "keys": [
-//      "ctrl+alt+shift+equals"
-//    ], 
-//    "__doc__": "Extract number from current caret position of the <code>editor</code> and\nincrement it by <code>step</code>\n@type editor: ZenCoding\n@param step: Increment step (may be negative)\n@type step: int", 
-//    "args": {
-//      "action": "increment_number", 
-//      "step": 1
-//    }, 
-//    "command": "run_zen_action", 
-//    "context": [{
-//      "operand": "source.css meta.property-list.css meta.property-value.css constant.numeric.css", 
-//      "operator": "equal", 
-//      "match_all": true, 
-//      "key": "selector"
-//    }]
-//  }, 
- 
 {
   "keys": [
-    "ctrl+alt+period"
+    "ctrl+alt+0"
   ], 
   "args": {
     "action": "increment_number_by_01"
@@ -253,7 +192,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "source.css meta.property-list.css meta.property-value.css constant.numeric.css", 
+      "operand": "source.css meta.property-list.css meta.property-value.css", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -262,7 +201,7 @@
 }, 
 {
   "keys": [
-    "ctrl+period"
+    "ctrl+0"
   ], 
   "args": {
     "action": "increment_number_by_1"
@@ -270,7 +209,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "source.css meta.property-list.css meta.property-value.css constant.numeric.css", 
+      "operand": "source.css meta.property-list.css meta.property-value.css", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -279,7 +218,7 @@
 }, 
 {
   "keys": [
-    "ctrl+shift+period"
+    "ctrl+alt+shift+0"
   ], 
   "args": {
     "action": "increment_number_by_10"
@@ -296,7 +235,7 @@
 }, 
 {
   "keys": [
-    "enterTODO"
+    "enter"
   ], 
   "__doc__": "Inserts newline character with proper indentation\n\n\n@param mode: Syntax mode (only 'html' is implemented)\n@type mode: str", 
   "args": {
@@ -306,12 +245,35 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "text.html", 
-      "operator": "equal", 
+      "key": "selector", 
       "match_all": true, 
-      "key": "selector"
+      "operand": "punctuation.definition.tag.html, meta.scope.between-tag-pair.html, punctuation.definition.tag.begin.html", 
+      "operator": "equal"
+    }, 
+    {
+      "key": "setting.auto_match_enabled", 
+      "operand": true, 
+      "operator": "equal"
+    }, 
+    {
+      "key": "selection_empty", 
+      "match_all": true, 
+      "operand": true, 
+      "operator": "equal"
+    }, 
+    {
+      "key": "following_text", 
+      "match_all": true, 
+      "operand": "^<$", 
+      "operator": "not_regex_contains"
+    }, 
+    {
+      "key": "preceding_text", 
+      "match_all": true, 
+      "operand": ">$", 
+      "operator": "regex_contains"
     }
-  ]
+  ] 
 }, 
 {
   "keys": [
@@ -352,24 +314,7 @@
 }, 
 {
   "keys": [
-    "TODO"
-  ], 
-  "args": {
-    "action": "match_pair_outward"
-  }, 
-  "command": "run_zen_action", 
-  "context": [
-    {
-      "operand": "text.html, source.css, text.xml", 
-      "operator": "equal", 
-      "match_all": true, 
-      "key": "selector"
-    }
-  ]
-}, 
-{
-  "keys": [
-    "TODO"
+    "ctrl+j"
   ], 
   "__doc__": "Merge lines spanned by user selection. If there's no selection, tries to find\nmatching tags and use them as selection\n", 
   "args": {
@@ -405,7 +350,7 @@
 }, 
 {
   "keys": [
-    "ctrl+comma"
+    "ctrl+,"
   ], 
   "__doc__": "Move caret to previous edit point\n", 
   "args": {
@@ -423,7 +368,7 @@
 }, 
 {
   "keys": [
-    "TODO"
+    "ctrl+alt+shift+v"
   ], 
   "__doc__": "Reflect CSS value: takes rule's value under caret and pastes it for the same \nrules with vendor prefixes\n@param editor: ZenEditor", 
   "args": {
@@ -434,14 +379,14 @@
     {
       "operand": "text.html, source.css, text.xml", 
       "operator": "equal", 
-      "match_al.l": true, 
+      "match_all": true, 
       "key": "selector"
     }
   ]
 }, 
 {
   "keys": [
-    "TODO"
+    "ctrl+shift+u"
   ], 
   "__doc__": "Gracefully removes tag under cursor", 
   "args": {
@@ -456,25 +401,7 @@
       "key": "selector"
     }
   ]
-}, 
-{
-  "keys": [
-    "TODO"
-  ], 
-  "__doc__": "Select line under cursor\n", 
-  "args": {
-    "action": "select_line"
-  }, 
-  "command": "run_zen_action", 
-  "context": [
-    {
-      "operand": "text.html, source.css, text.xml", 
-      "operator": "equal", 
-      "match_all": true, 
-      "key": "selector"
-    }
-  ]
-}, 
+},
 {
   "keys": [
     "ctrl+shift+period"
@@ -495,7 +422,7 @@
 
 {
   "keys": [
-    "ctrl+shift+comma"
+    "ctrl+shift+,"
   ], 
   "args": {
     "action": "select_previous_item"
@@ -571,16 +498,16 @@
 
 {
   "keys": [
-    "ctrl+shift+w"
+    "alt+shift+w"
   ], 
   "__doc__": "Wraps content with abbreviation\n\n\n@param syntax: Syntax type (html, css, etc.)\n@type syntax: str\n@param profile_name: Output profile name (html, xml, xhtml)\n@type profile_name: str", 
-  "args": {
-    "action": "wrap_with_abbreviation", 
-    "profile_name": null, 
-    "abbr": null, 
-    "syntax": null
-  }, 
-  "command": "run_zen_action", 
+  //"args": {
+  //  "action": "wrap_with_abbreviation", 
+  //  "profile_name": null, 
+  //  "abbr": "p", 
+  //  "syntax": null
+  //}, 
+  "command": "wrap_zen_as_you_type", 
   "context": [
     {
       "operand": "text.html, source.css, text.xml", 
