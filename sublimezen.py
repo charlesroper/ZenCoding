@@ -48,8 +48,9 @@ from zentrackers import back_track, track_regex, track_scope
 
 ################################### CONSTANTS ##################################
 
-CSS_PROP = 'source.css meta.property-list.css meta.property-name.css'
-ENCODING = 'utf8' # TODO
+CSS_PROP     = 'source.css meta.property-list.css meta.property-name.css'
+CSS_SELECTOR = 'source.css meta.selector.css'
+ENCODING     = 'utf8' # TODO
 
 ##################################### INIT #####################################
 
@@ -133,6 +134,17 @@ def find_css_property(view, start_pt):
     conds   = track_scope(CSS_PROP, False), track_scope(CSS_PROP)
     regions = back_track(view, start_pt, *conds)
     return view.substr(regions[-1])
+
+def find_css_selector(view, start_pt):
+    conds = [track_scope(CSS_SELECTOR)]
+
+    if not view.match_selector(start_pt, CSS_SELECTOR):
+        conds.insert(0, track_scope(CSS_SELECTOR, False))
+    
+    selector = back_track(view, start_pt, *conds)[-1]
+
+    if selector is not None:
+        return view.substr(selector).strip()
 
 def find_tag_start(view, start_pt):
     regions = back_track(view, start_pt, track_regex('<', False) )

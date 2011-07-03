@@ -27,10 +27,10 @@ import zencoding.actions
 from sublimezen import ( css_snippets, decode, expand_abbr, editor, css_sorted,
                          css_property_values, multi_selectable, CSS_PROP,
                          find_css_property, find_tag_start, find_tag_name,
-                         find_attribute_name, css_prefixer )
+                         find_attribute_name, css_prefixer, find_css_selector)
 
 from zenmeta    import ( CSS_PROP_VALUES, HTML_ELEMENTS_ATTRIBUTES,
-                         HTML_ATTRIBUTES_VALUES )
+                         HTML_ATTRIBUTES_VALUES, CSS_PSEUDO_CLASSES)
 
 from zencoding.html_matcher import last_match
 
@@ -46,6 +46,7 @@ HTML_NOT_INSIDE_TAG       = 'text.html - meta.tag'
 
 CSS          = 'source.css'
 CSS_PROPERTY = 'source.css meta.property-list.css - meta.property-value.css'
+CSS_SELECTOR = 'source.css meta.selector.css, source.css - meta'
 
 CSS_PROPERTY_NAME =  u'source.css meta.property-list.css meta.property-name.css'
 
@@ -172,6 +173,24 @@ class ZenListener(sublime_plugin.EventListener):
         return view.match_selector( view.sel()[0].b,
                                     'text.html, text.xml, source.css' )
 
+    def css_selectors(self, view, prefix, pos):
+        elements = [ (v, v) for v in
+                 sorted(HTML_ELEMENTS_ATTRIBUTES.keys()) if v != prefix]
+
+        if view.syntax_name(pos).strip() == 'source.css':
+            return elements
+        else:
+            selector = find_css_selector(view, pos)
+            oq_debug('css_selectors selector: %r' % selector)
+
+            if ':' in selector:
+                prefix = selector.rsplit(':', 1)[-1]
+                return [ ((prefix if prefix else p), ':' + p, p.replace('|', '$1'))
+                         for p in CSS_PSEUDO_CLASSES if not prefix or
+                             p.startswith(prefix[0].lower()) ]
+            else:
+                return elements
+
     def css_property_values(self, view, prefix, pos):
         prefix = css_prefixer(view, pos)
         prop   = find_css_property(view, pos)
@@ -181,7 +200,7 @@ class ZenListener(sublime_plugin.EventListener):
 
         if values and prefix and prefix in values:
             oq_debug("zcprop:val prop: %r values: %r" % (prop, values))
-            return [(prefix, d, d) for d,d in sorted(values.items())]
+            return [(prefix, d, v) for d,v in sorted(values.items())]
         else:
             # Look for values relating to that property
             # Remove exact matches, so a \t is inserted
@@ -213,7 +232,9 @@ class ZenListener(sublime_plugin.EventListener):
         # is used.
         COMPLETIONS = (
 
-            (CSS,  ( (CSS_VALUE,                 self.css_property_values), )),
+            (CSS,  ( (CSS_SELECTOR,              self.css_selectors),
+                     (CSS_VALUE,                 self.css_property_values) )),
+
             (HTML, ( (HTML_INSIDE_TAG,           self.html_elements_attributes),
                      (HTML_INSIDE_TAG_ATTRIBUTE, self.html_attributes_values) ))
         )
@@ -261,12 +282,13 @@ class ZenListener(sublime_plugin.EventListener):
             else:      properties = [ p for p in properties if
                                       # to allow for fuzzy, which will
                                       # generally start with first letter
-                                      p.startswith(prefix[0].lower()) ]
+                                      p.strip('-').startswith(prefix[0].lower()) ]
 
             oq_debug('css_property prefix: %r properties: %r' % ( prefix,
                                                                   properties ))
-            return sorted( ((prefix, ) if prefix else ()) + (v, '%s:$1;' %  v)
-                            for v in properties )
+
+            return [ ((prefix, ) if prefix else ()) + (v, '%s:$1;' %  v)
+                            for v in properties ]
         else:
             return []
 
