@@ -260,7 +260,7 @@ class ZenListener(sublime_plugin.EventListener):
 
             if abbr:
                 result = expand_abbr(abbr)
-                oq_debug('abbr: %r result: %r' % (abbr, result))
+                oq_debug('expand_abbr abbr: %r result: %r' % (abbr, result))
                 return [(abbr, result if '<' not in result else abbr, result)]
 
         except ZenInvalidAbbreviation:
