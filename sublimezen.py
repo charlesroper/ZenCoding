@@ -117,7 +117,7 @@ def multi_selectable(f):
     @wraps(f)
     def wrapper(self, edit, **args):
         contexter, merge = selections_context(self.view)
-        f(self, self.view, contexter, len(self.view.sel()), args)
+        f(self, self.view, contexter, args)
         merge()
     return wrapper
 

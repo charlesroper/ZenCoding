@@ -110,7 +110,7 @@ class RunZenAction(sublime_plugin.TextCommand):
     last_matches = []
 
     @multi_selectable
-    def run(self, view, contexter, nsels, kw):
+    def run(self, view, contexter, kw):
         matches = []
 
         for i, selection in enumerate(contexter):
