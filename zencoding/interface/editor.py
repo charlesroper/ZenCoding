@@ -57,7 +57,7 @@ class ZenEditor():
         """
         return eval(repr(active_view().sel()[0]))
 
-    def create_selection(self, start, end=None):
+    def create_selection(self, start=None, end=None, sels=[]):
         """
         Creates selection from *start* to *end* character
         indexes. If *end* is ommited, this method should place caret
@@ -69,9 +69,14 @@ class ZenEditor():
         # move caret to 15th character
         zen_editor.create_selection(15)
         """
+
+        
         view = active_view()
         view.sel().clear()
-        view.sel().add(sublime.Region(start, end or start))
+
+        for start, end in (sels or [(start, end)]):
+            view.sel().add(sublime.Region(start, end or start))
+
         view.show(view.sel())
 
     def get_current_line_range(self):

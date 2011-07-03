@@ -182,6 +182,21 @@
 }, 
 {
     "keys": [
+      "ctrl+shift+a"
+    ], 
+    "args": {
+      "action": "select_tag_name"
+    }, 
+    "command": "run_zen_action", 
+    "context": [{
+      "operand": "text.html, source.css", 
+      "operator": "equal", 
+      "match_all": true, 
+      "key": "selector"
+    }]
+  },
+{
+    "keys": [
       "ctrl+alt+n"
     ], 
     "__doc__": "Moves caret to matching opening or closing tag\n", 
