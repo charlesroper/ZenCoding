@@ -34,7 +34,7 @@ class ZenEditor():
 
         return ( self.add_placeholders(content, selection=selection)
                      .decode('utf8', 'ignore') )
-    
+
     def __init__(self):
         pass
 
@@ -93,7 +93,7 @@ class ZenEditor():
     def get_caret_pos(self):
         """ Returns current caret position """
         view = active_view()
-        return view.sel()[0].begin()
+        return len(view.sel()) and view.sel()[0].begin() or 0
 
     def set_caret_pos(self, pos):
         """
@@ -140,7 +140,7 @@ class ZenEditor():
         if end is None: end = start
 
         self.create_selection(start, end)
-        
+
         value = self.add_placeholders(value, selection=0, explicit_zero=zero_stops)
 
         if value.endswith('\n'):
@@ -187,9 +187,25 @@ class ZenEditor():
         Returns current output profile name (@see zen_coding#setup_profile)
         @return {String}
         """
-        KEY = 'zencoding.profile'
-        view = active_view()
-        return view.settings().get(KEY, 'xhtml')
+
+        KEY     = 'zencoding.profile'
+        view    = active_view()
+
+        profile = view.settings().get(KEY, None)
+        if profile is not None: return profile
+
+        pos     = self.get_caret_pos()
+
+        if view.match_selector(pos, 'text.xml'):
+            return 'xml'
+
+        if view.match_selector(pos, 'text.html'):
+            if 'xhtml' in view.substr(sublime.Region(0, 1000)).lower():
+                return 'xhtml'
+            else:
+                return 'html'
+        else:
+            return 'plain'
 
     def prompt(self, title):
         """
