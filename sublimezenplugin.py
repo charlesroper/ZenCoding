@@ -112,20 +112,17 @@ class RunZenAction(sublime_plugin.TextCommand):
     @multi_selectable
     def run(self, view, contexter, nsels, kw):
         matches = []
-        match_pair = kw['action'].startswith('match_pair')
 
         for i, selection in enumerate(contexter):
             args = kw.copy()
-            action = args.pop('action')
 
-            if ( match_pair and self.last_matches and
-                 not i >= len(self.last_matches) ):
+            if self.last_matches and not i >= len(self.last_matches):
                 last_match.update(self.last_matches[i])
 
-            zencoding.run_action(action, editor, **args)
+            zencoding.run_action(args.pop('action'), editor, **args)
+            matches.append(last_match.copy())
 
-            if match_pair: matches.append(last_match.copy())
-        if match_pair: self.last_matches = matches
+        self.last_matches = matches
 
 class SetHtmlSyntaxAndInsertSkel(sublime_plugin.TextCommand):
     def run(self, edit, doctype=None):
@@ -165,7 +162,7 @@ class ZenCssMnemonic(sublime_plugin.WindowCommand):
             if i != -1:
                 view.run_command('insert_snippet', {'contents': contents(i)})
 
-        display  = [list(reversed(i)) for i in forpanel]
+        display  = [[v,k] for k,v in forpanel]
         window.show_quick_panel(display, done)
 
 class ZenListener(sublime_plugin.EventListener):
@@ -175,7 +172,7 @@ class ZenListener(sublime_plugin.EventListener):
 
     def css_selectors(self, view, prefix, pos):
         elements = [ (v, v) for v in
-                 sorted(HTML_ELEMENTS_ATTRIBUTES.keys()) if v != prefix]
+                     sorted(HTML_ELEMENTS_ATTRIBUTES.keys()) if v != prefix]
 
         if view.syntax_name(pos).strip() == 'source.css':
             return elements
@@ -185,9 +182,10 @@ class ZenListener(sublime_plugin.EventListener):
 
             if ':' in selector:
                 prefix = selector.rsplit(':', 1)[-1]
-                return [ ((prefix if prefix else p), ':' + p, p.replace('|', '$1'))
-                         for p in CSS_PSEUDO_CLASSES if not prefix or
-                             p.startswith(prefix[0].lower()) ]
+                return [ ( (prefix if prefix else p),
+                           (':' + p),
+                           p.replace('|', '$1') ) for p in CSS_PSEUDO_CLASSES
+                           if not prefix or p.startswith(prefix[0].lower()) ]
             else:
                 return elements
 
@@ -288,7 +286,7 @@ class ZenListener(sublime_plugin.EventListener):
                                                                   properties ))
 
             return [ ((prefix, ) if prefix else ()) + (v, '%s:$1;' %  v)
-                            for v in properties ]
+                                 for v in properties ]
         else:
             return []
 

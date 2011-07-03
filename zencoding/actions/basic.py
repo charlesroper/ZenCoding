@@ -384,7 +384,7 @@ def go_to_matching_pair(editor):
 
 		if close_tag: # exclude unary tags
 			if open_tag.start <= caret_pos and open_tag.end >= caret_pos:
-				editor.set_caret_pos(close_tag.end)
+				editor.set_caret_pos(close_tag.start)
 			elif close_tag.start <= caret_pos and close_tag.end >= caret_pos:
 				editor.set_caret_pos(open_tag.start)
 
