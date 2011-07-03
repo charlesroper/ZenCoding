@@ -36,11 +36,11 @@ from zencoding.html_matcher import last_match
 
 ################################### CONSTANTS ##################################
 
-HTML                      = "text.html - source"
+HTML                      = 'text.html - source'
 
-HTML_INSIDE_TAG_ANYWHERE  = "text.html meta.tag"
-HTML_INSIDE_TAG           = "text.html meta.tag - string - meta.scope.between-tag-pair.html"
-HTML_INSIDE_TAG_ATTRIBUTE = "text.html meta.tag string"
+HTML_INSIDE_TAG_ANYWHERE  = 'text.html meta.tag'
+HTML_INSIDE_TAG           = 'text.html meta.tag - string - meta.scope.between-tag-pair.html'
+HTML_INSIDE_TAG_ATTRIBUTE = 'text.html meta.tag string'
 
 HTML_NOT_INSIDE_TAG       = 'text.html - meta.tag'
 
