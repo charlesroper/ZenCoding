@@ -137,13 +137,13 @@ class ZenEditor():
         edit = view.begin_edit()
 
         if start is None: start = 0
-        if end is None: end = start
+        if end is None:   end   = start
 
         self.create_selection(start, end)
 
         value = self.add_placeholders(value, selection=0, explicit_zero=zero_stops)
 
-        if value.endswith('\n'):
+        if '\n' in value:
             for sel in view.sel():
                 trailing = sublime.Region(sel.end(), view.line(sel).end())
                 if view.substr(trailing).isspace():

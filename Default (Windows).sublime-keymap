@@ -16,7 +16,21 @@
   "command": "zen_as_you_type", 
   "context": [
     {
-      "operand": "text.html, source.css, text.xml", 
+      "operand": "source.css - source.css.embedded, text.xml, text.html -source -meta.tag, meta.scope.between-tag-pair.html -source", 
+      "operator": "equal", 
+      "match_all": true, 
+      "key": "selector"
+    }
+  ]
+},
+{
+  "keys": [
+    "ctrl+alt+enter"
+  ], 
+  "command": "wrap_zen_as_you_type", 
+  "context": [
+    {
+      "operand": "text.html meta.tag - string - meta.scope.between-tag-pair.html",
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"

@@ -15,8 +15,14 @@ class CommandsAsYouTypeBase(sublime_plugin.TextCommand):
     history = {}
     filter_input = lambda s, i: i
 
-    def run_command(self, view, processed):
-        view.run_command('insert_snippet', { 'contents': processed })
+    def run_command(self, view, value):
+        if '\n' in value:
+            for sel in view.sel():
+                trailing = sublime.Region(sel.end(), view.line(sel).end())
+                if view.substr(trailing).isspace():
+                    view.erase(self.edit, trailing)
+
+        view.run_command('insert_snippet', { 'contents': value })
 
     def insert(self, abbr):
         view = self.view
@@ -27,7 +33,7 @@ class CommandsAsYouTypeBase(sublime_plugin.TextCommand):
             return
 
         def inner_insert():
-            edit = view.begin_edit()
+            self.edit = edit = view.begin_edit()
             cmd_input  = self.filter_input(abbr) or ''
             self.erase = self.run_command(view, cmd_input) is not False
             view.end_edit(edit)
