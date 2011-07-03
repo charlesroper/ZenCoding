@@ -185,7 +185,7 @@
       "ctrl+shift+a"
     ], 
     "args": {
-      "action": "select_tag_name"
+      "action": "match_pair_tagname"
     }, 
     "command": "run_zen_action", 
     "context": [{
