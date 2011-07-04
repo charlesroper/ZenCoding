@@ -39,7 +39,7 @@ from zencoding.html_matcher import last_match
 HTML                      = 'text.html - source'
 
 HTML_INSIDE_TAG_ANYWHERE  = 'text.html meta.tag'
-HTML_INSIDE_TAG           = 'text.html meta.tag - string - meta.scope.between-tag-pair.html'
+HTML_INSIDE_TAG           = 'text.html meta.tag - string - meta.scope.between-tag-pair.html -punctuation.definition.tag.begin.html'
 HTML_INSIDE_TAG_ATTRIBUTE = 'text.html meta.tag string'
 
 HTML_NOT_INSIDE_TAG       = 'text.html - meta.tag'
@@ -237,7 +237,7 @@ class ZenListener(sublime_plugin.EventListener):
                      (HTML_INSIDE_TAG_ATTRIBUTE, self.html_attributes_values) ))
         )
 
-        pos = view.sel()[0].b
+        pos = view.sel()[0].begin()
 
         # Try to find some more specific contextual abbreviation
         for root_selector, sub_selectors in COMPLETIONS:
@@ -246,6 +246,8 @@ class ZenListener(sublime_plugin.EventListener):
 
                     c = handler.__name__, prefix
                     oq_debug('handler: %r prefix: %r' % c)
+                    oq_debug('pos: %r scope: %r' % (pos, view.syntax_name(pos)))
+
 
                     completions = handler(view, prefix, pos)
                     oq_debug('completions: %r' % completions)
