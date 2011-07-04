@@ -70,10 +70,31 @@ __authors__     = ['"Sergey Chikuyonok" <serge.che@gmail.com>'
 zen_settings = sublime.load_settings('zen-coding.sublime-settings')
 
 def debug(f):
-    if zen_settings.get('debug'): print 'ZenCoding:', f
+    if zen_settings.get('debug'):
+        sublime.log_commands(True)
+        print 'ZenCoding:', f
 
 def oq_debug(f):
     debug("on_query_completions %s" % f)
+
+######################## REMOVE HTML/HTML_COMPLETIONS.PY #######################
+
+def remove_html_completions():
+    try:
+        import html_completions
+        html_completions.HtmlCompletions
+    except (ImportError, AttributeError):
+        debug('Unable to find `html_completions.HtmlCompletions`')
+        return
+
+    completions = sublime_plugin.all_callbacks['on_query_completions']
+
+    for i, h in enumerate(completions):
+        if isinstance(h, html_completions.HtmlCompletions):
+            del completions[i]
+
+    debug('on_query_completion: %r' % completions)
+sublime.set_timeout(remove_html_completions, 1)
 
 ########################## DYNAMIC ZEN CODING SNIPPETS #########################
 
