@@ -67,16 +67,10 @@ __authors__     = ['"Sergey Chikuyonok" <serge.che@gmail.com>'
 
 #################################### LOGGING ###################################
 
-DEBUG_LEVEL  = 10
-
-# TODO: why the fuck doesn't this work
-zen_logger   = logging.getLogger('ZenLogger')
-debug        = zen_logger.debug
-
-zen_logger.setLevel(DEBUG_LEVEL)
+zen_settings = sublime.load_settings('zen-coding.sublime-settings')
 
 def debug(f):
-    if DEBUG_LEVEL: print 'ZenCoding:', f
+    if zen_settings.get('debug'): print 'ZenCoding:', f
 
 def oq_debug(f):
     debug("on_query_completions %s" % f)
@@ -127,12 +121,10 @@ class RunZenAction(sublime_plugin.TextCommand):
 class SetHtmlSyntaxAndInsertSkel(sublime_plugin.TextCommand):
     def run(self, edit, doctype=None):
         view     = self.view
-
-        settings = {} # TODO sublime.load_settings ? keymap args?
-        syntax   = settings.get('default_html_syntax',
-                                'Packages/HTML/HTML.tmlanguage')
-
+        syntax   = zen_settings.get( 'default_html_syntax',
+                                     'Packages/HTML/HTML.tmlanguage' )
         view.set_syntax_file(syntax)
+
         view.run_command( 'insert_snippet',
                           {'contents': expand_abbr('html:%s' % doctype)} )
 
@@ -237,7 +229,7 @@ class ZenListener(sublime_plugin.EventListener):
                      (HTML_INSIDE_TAG_ATTRIBUTE, self.html_attributes_values) ))
         )
 
-        pos = view.sel()[0].begin()
+        pos = view.sel()[0].b
 
         # Try to find some more specific contextual abbreviation
         for root_selector, sub_selectors in COMPLETIONS:
