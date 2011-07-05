@@ -195,10 +195,9 @@ class ZenListener(sublime_plugin.EventListener):
 
             if ':' in selector:
                 prefix = selector.rsplit(':', 1)[-1]
-                return [ ( (prefix if prefix else p),
-                           (':' + p),
-                           p.replace('|', '$1') ) for p in CSS_PSEUDO_CLASSES
-                           if not prefix or p.startswith(prefix[0].lower()) ]
+                return [ ( prefix, (':' + p), p.replace('|', '$1') ) for p in 
+                           CSS_PSEUDO_CLASSES if 
+                           not prefix or p.startswith(prefix[0].lower() ) ]
             else:
                 return elements
 
@@ -218,17 +217,17 @@ class ZenListener(sublime_plugin.EventListener):
             values =  [v for v in CSS_PROP_VALUES.get(prop, []) if v != prefix]
             if values:
                 debug("zenmeta:val prop: %r values: %r" % (prop, values))
-                return [(prefix, ':'+v, v) if prefix else (v, ':'+v, v) for v in values]
+                return [(prefix, ':' + v, v) for v in values]
 
     def html_elements_attributes(self, view, prefix, pos):
         tag         = find_tag_name(view, pos)
         values      = HTML_ELEMENTS_ATTRIBUTES.get(tag, [])
-        return [('@' + v, '%s="$1"' % v) for v in values]
+        return [(prefix, '@' + v, '%s="$1"' % v) for v in values]
 
     def html_attributes_values(self, view, prefix, pos):
         attr        = find_attribute_name(view, pos)
         values      = HTML_ATTRIBUTES_VALUES.get(attr, [])
-        return [('@=' + v, v) for v in values]
+        return [(prefix, '@=' + v, v) for v in values]
 
     def on_query_completions(self, view, prefix, locations):
         if not self.correct_syntax(view): return []
@@ -291,6 +290,7 @@ class ZenListener(sublime_plugin.EventListener):
             # Use this to get non \w based prefixes
             prefix     = css_prefixer(view, pos)
             properties = sorted(CSS_PROP_VALUES.keys())
+            # 'a'.startswith('') is True! so will never get IndexError below
             exacts     = [p for p in properties if p.startswith(prefix)]
 
             if exacts: properties = exacts
@@ -300,10 +300,9 @@ class ZenListener(sublime_plugin.EventListener):
                                       p.strip('-').startswith(prefix[0].lower()) ]
 
             oq_debug('css_property exact: %r prefix: %r properties: %r' % ( 
-                bool(exacts), prefix, properties ))
+                      bool(exacts), prefix, properties ))
 
-            return [ ((prefix, ) if prefix else ()) + (v, '%s:$1;' %  v)
-                                 for v in properties ]
+            return [ (prefix, v, '%s:$1;' %  v) for v in properties ]
         else:
             return []
 
