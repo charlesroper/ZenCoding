@@ -37,6 +37,7 @@ from zencoding.html_matcher import last_match
 ################################### CONSTANTS ##################################
 
 HTML                      = 'text.html - source'
+XML                       = 'text.xml'
 
 HTML_INSIDE_TAG_ANYWHERE  = 'text.html meta.tag'
 HTML_INSIDE_TAG           = 'text.html meta.tag - string - meta.scope.between-tag-pair.html -punctuation.definition.tag.begin.html'
@@ -44,16 +45,18 @@ HTML_INSIDE_TAG_ATTRIBUTE = 'text.html meta.tag string'
 
 HTML_NOT_INSIDE_TAG       = 'text.html - meta.tag'
 
-CSS          = 'source.css'
-CSS_PROPERTY = 'source.css meta.property-list.css - meta.property-value.css'
-CSS_SELECTOR = 'source.css meta.selector.css, source.css - meta'
+CSS          = 'source.css, source.scss'
+CSS_PROPERTY = 'meta.property-list.css - meta.property-value.css'
+CSS_SELECTOR = 'meta.selector.css, source.css - meta, source.scss - meta'
 
-CSS_PROPERTY_NAME =  u'source.css meta.property-list.css meta.property-name.css'
+CSS_PROPERTY_NAME =  u'meta.property-list.css meta.property-name.css'
 
-CSS_PREFIXER = 'source.css meta.property-list.css, meta.selector.css'
-CSS_VALUE    = 'source.css meta.property-list.css meta.property-value.css'
+CSS_PREFIXER = 'meta.property-list.css, meta.selector.css'
+CSS_VALUE    = 'meta.property-list.css meta.property-value.css'
 
-CSS_ENTITY_SELECTOR = 'source.css meta.selector.css entity.other.attribute-name'
+CSS_ENTITY_SELECTOR = 'meta.selector.css entity.other.attribute-name'
+
+ZEN_SCOPE = ', '.join([HTML, XML, CSS])
 
 #################################### AUTHORS ###################################
 
@@ -180,14 +183,13 @@ class ZenCssMnemonic(sublime_plugin.WindowCommand):
 
 class ZenListener(sublime_plugin.EventListener):
     def correct_syntax(self, view):
-        return view.match_selector( view.sel()[0].b,
-                                    'text.html, text.xml, source.css' )
+        return view.match_selector( view.sel()[0].b, ZEN_SCOPE )
 
     def css_selectors(self, view, prefix, pos):
         elements = [ (v, v) for v in
                      sorted(HTML_ELEMENTS_ATTRIBUTES.keys()) if v != prefix]
 
-        if view.syntax_name(pos).strip() == 'source.css':
+        if view.syntax_name(pos).strip() in ('source.scss', 'source.css'):
             return elements
         else:
             selector = find_css_selector(view, pos)
