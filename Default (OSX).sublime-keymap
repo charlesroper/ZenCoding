@@ -71,7 +71,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "source.css meta.property-list.css meta.property-value.css", 
+      "operand": "meta.property-list.css meta.property-value.css", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -105,7 +105,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "source.css meta.property-list.css meta.property-value.css", 
+      "operand": "meta.property-list.css meta.property-value.css", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -123,7 +123,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "text.html, source.css, text.xml", 
+      "operand": "text.html", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -137,7 +137,7 @@
       {
         "key": "selector", 
         "match_all": true, 
-        "operand": "source.css", 
+        "operand": "source.css, source.scss", 
         "operator": "equal"
       }
     ], 
@@ -173,7 +173,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "text.html, source.css, text.xml",
+      "operand": "text.html, source.css, source.scss, text.xml",
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -189,7 +189,7 @@
     }, 
     "command": "run_zen_action", 
     "context": [{
-      "operand": "text.html, source.css", 
+      "operand": "text.html, text.xml", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -205,7 +205,7 @@
     }, 
     "command": "run_zen_action", 
     "context": [{
-      "operand": "text.html, source.css", 
+      "operand": "text.html, text.xml", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -221,7 +221,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "source.css meta.property-list.css meta.property-value.css", 
+      "operand": "meta.property-list.css meta.property-value.css", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -238,7 +238,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "source.css meta.property-list.css meta.property-value.css", 
+      "operand": "meta.property-list.css meta.property-value.css", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -255,7 +255,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "text.html, source.css, text.xml", 
+      "operand": "text.html, source.css, source.scss, text.xml", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -317,7 +317,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "text.html, source.css, text.xml", 
+      "operand": "text.html, source.css, source.scss, text.xml", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -334,7 +334,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "text.html, source.css, text.xml", 
+      "operand": "text.html, text.xml", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -352,7 +352,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "text.html, source.css, text.xml", 
+      "operand": "text.html, text.xml", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -406,7 +406,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "text.html, source.css, text.xml", 
+      "operand": "source.css", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -424,7 +424,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "text.html, source.css, text.xml", 
+      "operand": "text.html, text.xml", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -517,7 +517,7 @@
   "command": "run_zen_action", 
   "context": [
     {
-      "operand": "text.html, source.css, text.xml", 
+      "operand": "text.html, source.css, source.scss", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -533,7 +533,7 @@
   "command": "wrap_zen_as_you_type", 
   "context": [
     {
-      "operand": "text.html, source.css, text.xml", 
+      "operand": "text.html, text.xml", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
