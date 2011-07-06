@@ -195,8 +195,8 @@ class ZenListener(sublime_plugin.EventListener):
 
             if ':' in selector:
                 prefix = selector.rsplit(':', 1)[-1]
-                return [ ( prefix, (':' + p), p.replace('|', '$1') ) for p in 
-                           CSS_PSEUDO_CLASSES if 
+                return [ ( prefix, (':' + p), p.replace('|', '$1') ) for p in
+                           CSS_PSEUDO_CLASSES if
                            not prefix or p.startswith(prefix[0].lower() ) ]
             else:
                 return elements
@@ -299,7 +299,7 @@ class ZenListener(sublime_plugin.EventListener):
                                       # generally start with first letter
                                       p.strip('-').startswith(prefix[0].lower()) ]
 
-            oq_debug('css_property exact: %r prefix: %r properties: %r' % ( 
+            oq_debug('css_property exact: %r prefix: %r properties: %r' % (
                       bool(exacts), prefix, properties ))
 
             return [ (prefix, v, '%s:$1;' %  v) for v in properties ]
@@ -318,7 +318,7 @@ class ZenListener(sublime_plugin.EventListener):
     def on_query_context(self, view, key, op, operand, match_all):
         if key == 'is_zen':
             debug('checking iz_zen context')
-            context = Context.check_context(view)
+            context = ZenListener.check_context(view)
 
             if context is not None:
                 debug('is_zen context enabled')
