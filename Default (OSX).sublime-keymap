@@ -652,8 +652,9 @@
       "operand": "^(?:\t| |\\}|$)", 
       "match_all": true, 
       "key": "following_text"
-    },
-    {
+    }]
+  },
+  {
       "keys"    : ["tab"],
       "__doc__" : "Insert a completion when there is a snippet active as long as there's a valid abbrevation that doesn't end in a full stop.",
       "command" : "insert_best_completion",
@@ -666,4 +667,4 @@
           { "key": "selector", "operator": "equal", "operand": "text.html", "match_all": true} 
       ]
     }
-  ]}]
+  ]
