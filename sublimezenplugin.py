@@ -73,6 +73,16 @@ __authors__     = ['"Sergey Chikuyonok" <serge.che@gmail.com>'
 
 zen_settings = sublime.load_settings('zen-coding.sublime-settings')
 
+#################################### LOGGING ###################################
+
+def debug(f):
+    if zen_settings.get('debug'):
+        sublime.log_commands(True)
+        print 'ZenCoding:', f
+
+def oq_debug(f):
+    debug("on_query_completions %s" % f)
+
 ################################ MY ZEN SETTINGS ###############################
 
 
@@ -86,16 +96,6 @@ def load_settings(force_reload=False):
             assert zcr.vocabularies[zcr.VOC_USER] is my_zen_settings
 
 load_settings()
-
-#################################### LOGGING ###################################
-
-def debug(f):
-    if zen_settings.get('debug'):
-        sublime.log_commands(True)
-        print 'ZenCoding:', f
-
-def oq_debug(f):
-    debug("on_query_completions %s" % f)
 
 ######################## REMOVE HTML/HTML_COMPLETIONS.PY #######################
 
