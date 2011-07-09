@@ -1,3 +1,17 @@
+= HELP =
+
+    == Overview ==
+
+    See the `Sublime 2 Zen Coding announcement` post:
+        
+        http://www.sublimetext.com/forum/viewtopic.php?f=2&t=580&p=10654#p10654
+
+    == Installation ==
+
+    See `Installation guide for Zencoding into SublimeText 2` forum thread:
+
+        http://www.sublimetext.com/forum/viewtopic.php?f=5&t=2366
+
 = SETTINGS =
 
     There's two options for declaring customisations to the zen_settings. You
@@ -42,12 +56,3 @@
             'filters': 'html,css,fc'
         }
     }
-
-= HELP =
-    http://www.sublimetext.com/forum/viewtopic.php?f=2&t=580&p=10654#p10654
-
-    == Installation ==
-
-    See `Installation guide for Zencoding into SublimeText 2` forum thread:
-
-        http://www.sublimetext.com/forum/viewtopic.php?f=5&t=2366
