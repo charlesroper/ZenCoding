@@ -115,11 +115,11 @@ class WrapZenAsYouType(CommandsAsYouTypeBase):
 
     def run_command(self, view, cmd_input):
         try:
-            expand_abbr(cmd_input)
+            ex = expand_abbr(cmd_input)
+            if not ex: raise ZenInvalidAbbreviation('Empty expansion %r' % r)
         except ZenInvalidAbbreviation, e:
             return False
 
-        # view.cmd.run_zen_action(action="wrap_with_abbreviation", abbr=cmd_input)
         view.run_command (
             'run_zen_action',
             dict(action="wrap_with_abbreviation", abbr=cmd_input) )
