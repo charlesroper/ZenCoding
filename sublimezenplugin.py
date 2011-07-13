@@ -246,7 +246,7 @@ class ZenListener(sublime_plugin.EventListener):
 
         if values and prefix and prefix in values:
             oq_debug("zcprop:val prop: %r values: %r" % (prop, values))
-            return [(prefix, d, v) for d,v in sorted(values.items())]
+            return [(prefix, v, v) for d,v in sorted(values.items())]
         else:
             # Look for values relating to that property
             # Remove exact matches, so a \t is inserted
