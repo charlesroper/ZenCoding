@@ -74,9 +74,7 @@ def get_valid_html_abbrevs():
     c = create_resource_chain(VOC_USER, 'html', 'abbreviations')
     c.extend(  create_resource_chain(VOC_SYSTEM, 'html', 'abbreviations'))
     k = set()
-    
-    for r in c: 
-        print k.update(r.keys())
+    for r in c: k.update(r.keys())
     
     return k
 
