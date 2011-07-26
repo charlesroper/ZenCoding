@@ -93,6 +93,8 @@ valid_tag checking should possibly check for abbreviations eg.
 There should be a setting to disable contextual completions
 
 Installation
+
+
 """
 #################################### LOGGING ###################################
 
@@ -122,17 +124,13 @@ load_settings()
 def remove_html_completions():
     try:
         import html_completions
-        html_completions.HtmlCompletions
+        hc = html_completions.HtmlCompletions
     except (ImportError, AttributeError):
         debug('Unable to find `html_completions.HtmlCompletions`')
         return
 
     completions = sublime_plugin.all_callbacks['on_query_completions']
-
-    for i, h in enumerate(completions):
-        if isinstance(h, html_completions.HtmlCompletions):
-            del completions[i]
-
+    if hc in completions: completions.remove(hc)
     debug('on_query_completion: %r' % completions)
 
 sublime.set_timeout(remove_html_completions, 1)
@@ -154,7 +152,7 @@ class WrapZenAsYouType(CommandsAsYouTypeBase):
     def run_command(self, view, cmd_input):
         try:
             ex = expand_abbr(cmd_input)
-            if not ex: raise ZenInvalidAbbreviation('Empty expansion %r' % r)
+            if not ex: raise ZenInvalidAbbreviation('Empty expansion %r' % ex)
         except ZenInvalidAbbreviation, e:
             return False
 
@@ -267,6 +265,7 @@ class ZenListener(sublime_plugin.EventListener):
 
     def on_query_completions(self, view, prefix, locations):
         if not self.correct_syntax(view): return []
+        black_list = zen_settings.get('completions_blacklist', [])
 
         # We need to use one function rather than discrete listeners so as to
         # avoid pollution with less specific completions. Try to return early
@@ -290,9 +289,11 @@ class ZenListener(sublime_plugin.EventListener):
         # Try to find some more specific contextual abbreviation
         for root_selector, sub_selectors in COMPLETIONS:
             for sub_selector, handler in sub_selectors:
+                h_name = handler.__name__
+                if h_name in black_list: continue
                 if view.match_selector(pos,  sub_selector):
 
-                    c = handler.__name__, prefix
+                    c = h_name, prefix
                     oq_debug('handler: %r prefix: %r' % c)
                     oq_debug('pos: %r scope: %r' % (pos, view.syntax_name(pos)))
 
@@ -322,7 +323,9 @@ class ZenListener(sublime_plugin.EventListener):
         # TODO, before or after this, fuzz directly against the zen snippets
         # eg  `tjd` matching `tj:d` to expand `text-justify:distribute;`
 
-        if view.match_selector(pos, CSS_PROPERTY):
+        if ( view.match_selector(pos, CSS_PROPERTY) and 
+             not 'css_properties' in black_list ):
+
             # Use this to get non \w based prefixes
             prefix     = css_prefixer(view, pos)
             properties = sorted(CSS_PROP_VALUES.keys())
@@ -378,7 +381,6 @@ class SetHtmlSyntaxAndInsertSkel(sublime_plugin.TextCommand):
         syntax   = zen_settings.get( 'default_html_syntax',
                                      'Packages/HTML/HTML.tmlanguage' )
         view.set_syntax_file(syntax)
-
         view.run_command( 'insert_snippet',
                           {'contents': expand_abbr('html:%s' % doctype)} )
 
