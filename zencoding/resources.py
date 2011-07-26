@@ -70,6 +70,16 @@ def has_deep_key(obj, key):
 	return True
 
 
+def get_valid_html_abbrevs():
+    c = create_resource_chain(VOC_USER, 'html', 'abbreviations')
+    c.extend(  create_resource_chain(VOC_SYSTEM, 'html', 'abbreviations'))
+    k = set()
+    
+    for r in c: 
+        print k.update(r.keys())
+    
+    return k
+
 def create_resource_chain(vocabulary, syntax, name):
 	"""
 	Creates resource inheritance chain for lookups

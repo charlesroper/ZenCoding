@@ -26,10 +26,14 @@ def active_view():
 ################################################################################
 
 class ZenEditor():
-    def expand_abbr(self, abbr, syntax = None, selection=True):
+    def expand_abbr(self, abbr, syntax = None, selection=True, 
+                                               super_profile=None):
 
         syntax       = syntax or self.get_syntax()
         profile_name = self.get_profile_name()
+
+        if super_profile: profile_name += '.%s' % super_profile
+        
         content      = expand_abbreviation(abbr, syntax, profile_name)
 
         return ( self.add_placeholders(content, selection=selection)

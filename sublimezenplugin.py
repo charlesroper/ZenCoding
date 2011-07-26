@@ -142,7 +142,7 @@ class ZenAsYouType(CommandsAsYouTypeBase):
 
     def filter_input(self, abbr):
         try:
-            return expand_abbr(abbr)
+            return expand_abbr(abbr, super_profile='no_check_valid')
         except ZenInvalidAbbreviation:
             "dont litter the console"
 
@@ -151,7 +151,7 @@ class WrapZenAsYouType(CommandsAsYouTypeBase):
 
     def run_command(self, view, cmd_input):
         try:
-            ex = expand_abbr(cmd_input)
+            ex = expand_abbr(abbr, super_profile='no_check_valid')
             if not ex: raise ZenInvalidAbbreviation('Empty expansion %r' % ex)
         except ZenInvalidAbbreviation, e:
             return False

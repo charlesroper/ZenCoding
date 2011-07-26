@@ -38,13 +38,22 @@
 
         {
             "debug" : false,
+
+            "completions_blacklist": [
+                // "css_selectors",
+                // "css_property_values",
+                // "html_elements_attributes",
+                // "html_attributes_values",
+                // "css_properties"
+            ],
+
             "my_zen_settings" : {
                 "html": {
                     "abbreviations": {
-                        "jq": "<script type=\"text/javascript\" src=\"...\"></script>",
+                        "jq": "<script src='jquery.js' type='javascript'>",
                         "demo": "<div id=\"demo\"></div>"
                     }
-                }
+               }
             }
         }
 

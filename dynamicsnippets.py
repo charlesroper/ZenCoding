@@ -48,12 +48,12 @@ class CommandsAsYouTypeBase(sublime_plugin.TextCommand):
     def run(self, edit, **args):
         self.erase = False
 
-        args       = frozenset(args.items())
-        last_entry = type(self).history.get(args, '')
-
-        def done(abbr): type(self).history[args] = abbr
+        # TODO: hsi
+        # args       = frozenset(args.items())
+        last_entry = '' #type(self).history.get(args, '')
+        # def done(abbr): type(self).history[args] = abbr
 
         self.view.window().show_input_panel (
-            self.input_message, last_entry, done, self.insert, self.undo )
+            self.input_message, last_entry, None, self.insert, self.undo )
 
 ################################################################################
