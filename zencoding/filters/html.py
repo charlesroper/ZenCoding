@@ -9,7 +9,6 @@ Filter that produces HTML tree
 import zencoding.utils
 
 from zencoding.parser.abbreviation import ZenInvalidAbbreviation
-from zencoding.resources import get_resource
 from zencoding.resources import get_valid_html_abbrevs
 
 VALID_TAGS = [

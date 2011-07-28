@@ -2,16 +2,6 @@
 #coding: utf8
 #################################### IMPORTS ###################################
 
-# Std Libs
-import os
-import sys
-import re
-import random
-import time
-import copy
-
-import logging
-
 # Sublime Libs
 import sublime
 import sublime_plugin
@@ -20,15 +10,17 @@ import sublime_plugin
 from zencoding.parser.abbreviation import ZenInvalidAbbreviation
 from zencoding import resources as zcr
 
+from zencoding.filters.html import ZenInvalidTag
+
 # Dynamic Snippet Base Class
 from dynamicsnippets import CommandsAsYouTypeBase
 
 import zencoding
 import zencoding.actions
 
-from sublimezen import ( css_snippets, decode, expand_abbr, editor, css_sorted,
-                         css_property_values, multi_selectable, CSS_PROP,
-                         find_css_property, find_tag_start, find_tag_name,
+from sublimezen import ( expand_abbr, editor, css_sorted,
+                         css_property_values, multi_selectable,
+                         find_css_property, find_tag_name,
                          find_attribute_name, css_prefixer, find_css_selector)
 
 from zenmeta    import ( CSS_PROP_VALUES, HTML_ELEMENTS_ATTRIBUTES,
@@ -151,9 +143,9 @@ class WrapZenAsYouType(CommandsAsYouTypeBase):
 
     def run_command(self, view, cmd_input):
         try:
-            ex = expand_abbr(abbr, super_profile='no_check_valid')
+            ex = expand_abbr(cmd_input)
             if not ex: raise ZenInvalidAbbreviation('Empty expansion %r' % ex)
-        except ZenInvalidAbbreviation, e:
+        except ZenInvalidAbbreviation:
             return False
 
         view.run_command (
