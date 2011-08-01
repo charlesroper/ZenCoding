@@ -10,8 +10,6 @@ import sublime_plugin
 from zencoding.parser.abbreviation import ZenInvalidAbbreviation
 from zencoding import resources as zcr
 
-from zencoding.filters.html import ZenInvalidTag
-
 # Dynamic Snippet Base Class
 from dynamicsnippets import CommandsAsYouTypeBase
 
@@ -34,7 +32,10 @@ HTML                      = 'text.html - source'
 XML                       = 'text.xml'
 
 HTML_INSIDE_TAG_ANYWHERE  = 'text.html meta.tag'
-HTML_INSIDE_TAG           = 'text.html meta.tag - string - meta.scope.between-tag-pair.html -punctuation.definition.tag.begin.html'
+HTML_INSIDE_TAG           = ( 'text.html meta.tag - string - '
+                              'meta.scope.between-tag-pair.html '
+                              '-punctuation.definition.tag.begin.html')
+
 HTML_INSIDE_TAG_ATTRIBUTE = 'text.html meta.tag string'
 
 HTML_NOT_INSIDE_TAG       = 'text.html - meta.tag'
@@ -43,7 +44,7 @@ CSS          = 'source.css, source.scss'
 CSS_PROPERTY = 'meta.property-list.css - meta.property-value.css'
 CSS_SELECTOR = 'meta.selector.css, source.css - meta, source.scss - meta'
 
-CSS_PROPERTY_NAME =  u'meta.property-list.css meta.property-name.css'
+CSS_PROPERTY_NAME =  'meta.property-list.css meta.property-name.css'
 
 CSS_PREFIXER = 'meta.property-list.css, meta.selector.css'
 CSS_VALUE    = 'meta.property-list.css meta.property-value.css'
@@ -108,8 +109,12 @@ def load_settings(force_reload=False):
             debug('loading my_zen_settings from zen-settings.sublime-settings')
             zcr.set_vocabulary(my_zen_settings, zcr.VOC_USER)
             assert zcr.vocabularies[zcr.VOC_USER] is my_zen_settings
-
 load_settings()
+
+if int(sublime.version()) >= 2092:
+    zen_settings.clear_on_change('zen_coding')
+    zen_settings.add_on_change( 'zen_coding', 
+                                lambda: load_settings(force_reload=1) )
 
 ######################## REMOVE HTML/HTML_COMPLETIONS.PY #######################
 
@@ -358,13 +363,6 @@ class ZenListener(sublime_plugin.EventListener):
             else:
                 debug('is_zen context disabled')
                 return False
-
-    def on_post_save(self, view):
-        fn = view.file_name()
-
-        if fn and fn.endswith('zen-coding.sublime-settings'):
-            # Seems to take a bit of time for settings to be reloaded
-            sublime.set_timeout(lambda: load_settings(force_reload=True), 1000)
 
 ################################################################################
 
