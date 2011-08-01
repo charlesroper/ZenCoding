@@ -688,19 +688,23 @@ def get_line_padding(line):
     m = re.match(r'^(\s+)', line)
     return m and m.group(0) or ''
 
-def test():
-    print get_profile('xhtml.is_valid_tag')
+def test_get_profile():
+    from pprint import pprint as pp
+    pp(profiles)
+    print profiles['no_check_valid']
+    print 'xhtml'  in profiles
+    print get_profile('xhtml.no_check_valid')
 
 def get_profile(name):
     """
     Get profile by it's name. If profile wasn't found, returns 'plain' profile
     """
 
-    gp      = lambda name: profiles[name] if name in profiles else profiles['plain']
+    gp      = lambda name: profiles[name]# if name in profiles else profiles['plain']
     profile = {}
 
     for p in name.split('.'):
-        profile.update(gp(name))
+        profile.update(gp(p))
 
     return profile
 
@@ -1234,7 +1238,9 @@ class ZenError(Exception):
         return self.value
 
 # create default profiles
-setup_profile('no_check_valid', {'check_valid' : False});
+# setup_profile('no_check_valid', {'check_valid' : False});
+profiles['no_check_valid'] = {'check_valid' : False}
+
 setup_profile('xhtml', {'check_valid' : True});
 setup_profile('html',  {'check_valid' : True,  'self_closing_tag': False});
 setup_profile('xml',   {'check_valid' : False,  'self_closing_tag': True, 'tag_nl': True});
