@@ -124,6 +124,7 @@ sublime.set_timeout(remove_html_completions, 2000)
 ########################## DYNAMIC ZEN CODING SNIPPETS #########################
 
 class ZenAsYouType(CommandsAsYouTypeBase):
+    default_input = 'div'
     input_message = "Enter Koan: "
 
     def filter_input(self, abbr):
@@ -133,6 +134,7 @@ class ZenAsYouType(CommandsAsYouTypeBase):
             "dont litter the console"
 
 class WrapZenAsYouType(CommandsAsYouTypeBase):
+    default_input = 'div'
     input_message = "Enter Haiku: "
 
     def run_command(self, view, cmd_input):
@@ -142,6 +144,8 @@ class WrapZenAsYouType(CommandsAsYouTypeBase):
             if not ex: raise ZenInvalidAbbreviation('Empty expansion %r' % ex)
         except ZenInvalidAbbreviation:
             return False
+        
+        print `ex`
 
         view.run_command (
             'run_zen_action',
