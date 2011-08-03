@@ -70,24 +70,13 @@ zen_settings = sublime.load_settings('zen-coding.sublime-settings')
 ##################################### TODO #####################################
 """
 
-Don't do valid_tag checking for as you type, only for `insert_best_completion`
-Should be able to use as you type for anything, including <xml:namespaces />
+Anything referencing `css_sorted` should be updated to be recalculated on zen-
+codings.sublime-settings change)
 
-valid_tag checking should possibly check for abbreviations eg.
-    
-    "my_zen_settings" : {
-        "html": {
-            "abbreviations": {
-                "jq": "<script src='jquery.js' type='javascript'>",
-                "demo": "<div id=\"demo\"></div>"
-            }
-       }
-
-There should be a setting to disable contextual completions
-
-Installation
-
-
+Installation Docs
+    OSX
+    Windows
+    Linux
 """
 #################################### LOGGING ###################################
 
@@ -130,7 +119,7 @@ def remove_html_completions():
     if hc in completions: completions.remove(hc)
     debug('on_query_completion: %r' % completions)
 
-sublime.set_timeout(remove_html_completions, 1)
+sublime.set_timeout(remove_html_completions, 2000)
 
 ########################## DYNAMIC ZEN CODING SNIPPETS #########################
 
@@ -156,7 +145,7 @@ class WrapZenAsYouType(CommandsAsYouTypeBase):
 
         view.run_command (
             'run_zen_action',
-            dict(action="wrap_with_abbreviation", abbr=cmd_input, profile_name=p) )
+            dict(action="wrap_with_abbreviation", abbr=cmd_input, profile_name=p))
 
 ################################ RUN ZEN ACTION ################################
 
