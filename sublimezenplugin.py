@@ -144,8 +144,6 @@ class WrapZenAsYouType(CommandsAsYouTypeBase):
             if not ex: raise ZenInvalidAbbreviation('Empty expansion %r' % ex)
         except ZenInvalidAbbreviation:
             return False
-        
-        print `ex`
 
         view.run_command (
             'run_zen_action',

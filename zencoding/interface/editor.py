@@ -59,7 +59,9 @@ class ZenEditor():
         start, end = zen_editor.get_selection_range();
         print('%s, %s' % (start, end))
         """
-        return eval(repr(active_view().sel()[0]))
+        view = active_view()
+        sel = view.sel()[0]
+        return sel.begin(), sel.end()
 
     def create_selection(self, start=None, end=None, sels=[]):
         """
