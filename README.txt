@@ -50,7 +50,6 @@
             "my_zen_settings" : {
                 "html": {
                     "abbreviations": {
-                        "jq": "<script src='jquery.js' type='javascript'>",
                         "demo": "<div id=\"demo\"></div>"
                     }
                }
