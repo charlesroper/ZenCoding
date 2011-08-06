@@ -45,15 +45,7 @@
                 // "html_elements_attributes",
                 // "html_attributes_values",
                 // "css_properties"
-            ],
-
-            "my_zen_settings" : {
-                "html": {
-                    "abbreviations": {
-                        "demo": "<div id=\"demo\"></div>"
-                    }
-               }
-            }
+            ]
         }
 
     == Dict Format ==
