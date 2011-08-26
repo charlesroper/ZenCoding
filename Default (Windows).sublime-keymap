@@ -567,7 +567,7 @@
   "command": "insert_snippet", 
   "context": [
     {
-      "operand": "text.html meta.tag -string -punctuation.definition.tag.begin.html -meta.scope.between-tag-pair.html", 
+      "operand": "text.html meta.tag -string -punctuation.definition.tag.begin.html -meta.scope.between-tag-pair.html -source -meta.tag.template.value.twig", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -585,7 +585,7 @@
   "context": [
     {
       "key": "selector",
-      "operand":   "text.html meta.tag -string -punctuation.definition.tag.begin.html -meta.scope.between-tag-pair.html -source", 
+      "operand":   "text.html meta.tag -string -punctuation.definition.tag.begin.html -meta.scope.between-tag-pair.html -source -meta.tag.template.value.twig", 
       "operator": "equal", 
       "match_all": true 
     }
@@ -601,7 +601,7 @@
   "command": "insert_snippet", 
   "context": [
     {
-      "operand": "text.html meta.tag -string -punctuation.definition.tag.begin.html -meta.scope.between-tag-pair.html -source", 
+      "operand": "text.html meta.tag -string -punctuation.definition.tag.begin.html -meta.scope.between-tag-pair.html -source -meta.tag.template.value.twig", 
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
@@ -624,7 +624,7 @@
   "command": "insert_snippet", 
   "context": [
     {
-      "operand": "text.html meta.tag -string -punctuation.definition.tag.begin.html -meta.scope.between-tag-pair.html -source",
+      "operand": "text.html meta.tag -string -punctuation.definition.tag.begin.html -meta.scope.between-tag-pair.html -source -meta.tag.template.value.twig",
       "operator": "equal", 
       "match_all": true, 
       "key": "selector"
