@@ -77,6 +77,7 @@ Installation Docs
     OSX
     Windows
     Linux
+
 """
 #################################### LOGGING ###################################
 
@@ -98,12 +99,13 @@ def load_settings(force_reload=False):
             debug('loading my_zen_settings from zen-settings.sublime-settings')
             zcr.set_vocabulary(my_zen_settings, zcr.VOC_USER)
             assert zcr.vocabularies[zcr.VOC_USER] is my_zen_settings
+
 load_settings()
 
 if int(sublime.version()) >= 2092:
     zen_settings.clear_on_change('zen_coding')
-    zen_settings.add_on_change( 'zen_coding', 
-                                lambda: load_settings(force_reload=1) )
+    zen_settings.add_on_change('zen_coding', 
+                               lambda: load_settings(force_reload=1))
 
 ######################## REMOVE HTML/HTML_COMPLETIONS.PY #######################
 
@@ -253,7 +255,9 @@ class ZenListener(sublime_plugin.EventListener):
         return [(prefix, '@=' + v, v) for v in values]
 
     def on_query_completions(self, view, prefix, locations):
-        if not self.correct_syntax(view): return []
+        if ( not self.correct_syntax(view) or 
+             zen_settings.get('disable_completions', False) ): return []
+
         black_list = zen_settings.get('completions_blacklist', [])
 
         # We need to use one function rather than discrete listeners so as to
