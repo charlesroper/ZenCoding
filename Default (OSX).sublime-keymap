@@ -228,7 +228,7 @@
       "match_all": true,
       "key": "selector"
     },
-    {"operand": false, "operator": "equal", "key": "zen_setting.alt_gr"}
+    {"operand": false, "operator": "equal", "key": "setting.alt_gr"}
 ]
   },
 {
