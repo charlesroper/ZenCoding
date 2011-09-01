@@ -1,9 +1,14 @@
 {
-    "debug" : false,
+    // Will sublime.log_commands(True) and output Zen Specific debug info
+    "debug" : true,
+
+    // Set true to disable ctrl+alt+n keybindings
+    "alt_gr" : false,
 
     // For those who just want `zen as you type`
     "disable_completions": false,
 
+    // contextual completions that aren't part of `zen proper`
     "completions_blacklist": [
         // "css_selectors",
         // "css_property_values",
