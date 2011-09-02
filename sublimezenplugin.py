@@ -3,7 +3,7 @@
 #################################### IMPORTS ###################################
 
 # Std Libs
-import operator
+# import operator
 
 # Sublime Libs
 import sublime
@@ -121,7 +121,7 @@ load_settings()
 
 if int(sublime.version()) >= 2092:
     zen_settings.clear_on_change('zen_coding')
-    zen_settings.add_on_change('zen_coding', 
+    zen_settings.add_on_change('zen_coding',
                                lambda: load_settings(force_reload=1))
 
 ######################## REMOVE HTML/HTML_COMPLETIONS.PY #######################
@@ -135,7 +135,7 @@ def remove_html_completions():
         return
 
     completions = sublime_plugin.all_callbacks['on_query_completions']
-    if hc in completions: 
+    if hc in completions:
         debug('on_query_completion: removing %s' % hc)
         completions.remove(hc)
 
@@ -275,7 +275,7 @@ class ZenListener(sublime_plugin.EventListener):
         return [(prefix, '@=' + v, v) for v in values]
 
     def on_query_completions(self, view, prefix, locations):
-        if ( not self.correct_syntax(view) or 
+        if ( not self.correct_syntax(view) or
              zen_settings.get('disable_completions', False) ): return []
 
         black_list = zen_settings.get('completions_blacklist', [])
@@ -336,7 +336,7 @@ class ZenListener(sublime_plugin.EventListener):
         # TODO, before or after this, fuzz directly against the zen snippets
         # eg  `tjd` matching `tj:d` to expand `text-justify:distribute;`
 
-        if ( view.match_selector(pos, CSS_PROPERTY) and 
+        if ( view.match_selector(pos, CSS_PROPERTY) and
              not 'css_properties' in black_list ):
 
             # Use this to get non \w based prefixes

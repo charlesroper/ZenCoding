@@ -1,6 +1,6 @@
 {
     // Will sublime.log_commands(True) and output Zen Specific debug info
-    "debug" : true,
+    "debug" : false,
 
     // For those who just want `zen as you type`
     "disable_completions": false,
