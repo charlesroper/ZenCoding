@@ -135,11 +135,13 @@ def remove_html_completions():
         return
 
     completions = sublime_plugin.all_callbacks['on_query_completions']
+
     if hc in completions:
-        debug('on_query_completion: removing %s' % hc)
+        debug('on_query_completion: removing: %s' % hc)
         completions.remove(hc)
 
-    debug('on_query_completion: %r' % completions)
+    debug('on_query_completion: callbacks: %r' % completions)
+
 sublime.set_timeout(remove_html_completions, 2000)
 
 ########################## DYNAMIC ZEN CODING SNIPPETS #########################
@@ -325,7 +327,7 @@ class ZenListener(sublime_plugin.EventListener):
 
                 if result:
                     return [
-                        (abbr, result if '<' not in result else abbr, result)]
+                        (abbr, abbr, result)]
 
         except ZenInvalidAbbreviation:
             pass
