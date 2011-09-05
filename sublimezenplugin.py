@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #coding: utf8
 #################################### IMPORTS ###################################
 
@@ -135,10 +134,10 @@ def remove_html_completions():
         return
 
     completions = sublime_plugin.all_callbacks['on_query_completions']
-
-    if hc in completions:
-        debug('on_query_completion: removing: %s' % hc)
-        completions.remove(hc)
+    for i, instance in enumerate (completions):
+        if isinstance(instance, hc):
+            debug('on_query_completion: removing: %s' % hc)
+            del completions[i]
 
     debug('on_query_completion: callbacks: %r' % completions)
 
