@@ -8,11 +8,9 @@
 
     == Installation ==
 
-    See in the announcement post and also:
+    Use [[http://wbond.net/sublime_packages/package_control#Installation]|Package Control]
 
-    See `Installation guide for Zencoding into SublimeText 2` forum thread:
-
-        http://www.sublimetext.com/forum/viewtopic.php?f=5&t=2366
+    Or if you like, just check out the repo into your $PACKAGES_PATH
 
 = SETTINGS =
 
