@@ -8,7 +8,7 @@
 
     == Installation ==
 
-    Use [[http://wbond.net/sublime_packages/package_control#Installation]|Package Control]
+    Use Package Control (http://wbond.net/sublime_packages/package_control#Installation)
 
     Or if you like, just check out the repo into your $PACKAGES_PATH
 
