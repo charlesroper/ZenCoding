@@ -2,7 +2,7 @@
 #################################### IMPORTS ###################################
 
 # Std Libs
-# import operator
+import operator
 
 # Sublime Libs
 import sublime
@@ -70,18 +70,18 @@ __authors__     = ['"Sergey Chikuyonok" <serge.che@gmail.com>'
 zen_settings = sublime.load_settings('zen-coding.sublime-settings')
 
 
-# OPMAP = {
-#     sublime.OP_EQUAL     : operator.eq,
-#     sublime.OP_NOT_EQUAL : operator.ne,
-# }
+OPMAP = {
+    sublime.OP_EQUAL     : operator.eq,
+    sublime.OP_NOT_EQUAL : operator.ne,
+}
 
-# def eval_op(op, operand, operand2):
-#     return OPMAP[op](operand, operand2)
+def eval_op(op, operand, operand2):
+    return OPMAP[op](operand, operand2)
 
-# class ZenSettings(sublime_plugin.EventListener):
-#     def on_query_context(self, view, key, op, operand, match_all):
-#         if key.startswith('zen_setting'):
-#             return eval_op(op, operand, zen_settings.get(key.split('.')[1]))
+class ZenSettings(sublime_plugin.EventListener):
+    def on_query_context(self, view, key, op, operand, match_all):
+        if key.startswith('zen_setting'):
+            return eval_op(op, operand, zen_settings.get(key.split('.')[1]))
 
 ##################################### TODO #####################################
 """
