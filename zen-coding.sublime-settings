@@ -19,9 +19,16 @@
 
     // These are `file type` settings and must be copied to
     //  `User/Base File.sublime-settings`
-    //      or a syntax specific 1
+    //      or a syntax specific 1 like
     //  `User/HTML.sublime-settings`
-    "File Settings" : {
+    //                      |
+    //                     /^\ 
+    "File Settings" :       {
+        //     README------^/
+        //     README----->/
+        //     README----^/ 
+        //>------------->/
+
         // If `true` will disable ctrl+alt+n binding
         "alt_gr"        : false,
         // If `true` will insert id="$1" snippet on pressing '#', similar on '.'
@@ -29,7 +36,7 @@
         "auto_id_class" : false
     },
 
-    // my_zen_settings declared here will be reloaded without starting Sublime
+    // my_zen_settings declared here will be reloaded without restarting Sublime
     "my_zen_settings" : {
         "html": {
             "abbreviations": {
