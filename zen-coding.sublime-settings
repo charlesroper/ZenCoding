@@ -21,6 +21,8 @@
     //  `User/Base File.sublime-settings`
     //      or a syntax specific 1 like
     //  `User/HTML.sublime-settings`
+    // You don't copy the whole structure, but rather individual keys.
+    // Inside the `File Settings` key.
     //                      |
     //                     /^\ 
     "File Settings" :       {
