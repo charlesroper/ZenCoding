@@ -153,7 +153,7 @@ class ZenAsYouType(CommandsAsYouTypeBase):
     def filter_input(self, abbr):
         try:
             return expand_abbr(abbr, super_profile='no_check_valid')
-        except ZenInvalidAbbreviation:
+        except Exception:
             "dont litter the console"
 
 class WrapZenAsYouType(CommandsAsYouTypeBase):
@@ -163,14 +163,16 @@ class WrapZenAsYouType(CommandsAsYouTypeBase):
     def run_command(self, view, cmd_input):
         try:
             ex = expand_abbr(cmd_input, super_profile='no_check_valid')
-            p = editor.get_profile_name() + '.no_check_valid'
-            if not ex: raise ZenInvalidAbbreviation('Empty expansion %r' % ex)
-        except ZenInvalidAbbreviation:
+            p  = editor.get_profile_name() + '.no_check_valid'
+            if not ex.strip():
+                raise ZenInvalidAbbreviation('Empty expansion %r' % ex)
+        except Exception:
             return False
 
         view.run_command (
             'run_zen_action',
-            dict(action="wrap_with_abbreviation", abbr=cmd_input, profile_name=p))
+            dict(action="wrap_with_abbreviation",
+            abbr=cmd_input, profile_name=p))
 
 ################################ RUN ZEN ACTION ################################
 

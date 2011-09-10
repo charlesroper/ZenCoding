@@ -47,6 +47,7 @@
             }
         },
         "css": {
+            "filters": "html,css,fc",
             "snippets": {
                 "c": "color:#${1:000000};"
             }
