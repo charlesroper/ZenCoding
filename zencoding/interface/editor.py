@@ -169,7 +169,7 @@ class ZenEditor():
         @return: str
         """
         view = active_view()
-        return view.substr(sublime.Region(0, view.size()))
+        return view.substr(sublime.Region(0, view.size())).replace('$', '\\$')
 
     def get_syntax(self):
         """
