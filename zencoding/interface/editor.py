@@ -152,6 +152,7 @@ class ZenEditor():
 
         self.create_selection(start, end)
 
+        value = value.replace('$', r'\$')
         value = self.add_placeholders(value, selection=0, explicit_zero=zero_stops)
 
         if '\n' in value:
@@ -169,7 +170,7 @@ class ZenEditor():
         @return: str
         """
         view = active_view()
-        return view.substr(sublime.Region(0, view.size())).replace('$', '\\$')
+        return view.substr(sublime.Region(0, view.size()))
 
     def get_syntax(self):
         """
