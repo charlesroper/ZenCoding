@@ -678,7 +678,7 @@
     }]
   },
   {
-      "keys"    : ["tab"],
+      "keys"    : ["tabarsta"],
       "__doc__" : "Insert a completion when there is a snippet active as long as there's a valid abbrevation that doesn't end in a full stop.",
       "command" : "insert_best_completion",
       "args"    : {"exact" : false, "default": "\t"},
