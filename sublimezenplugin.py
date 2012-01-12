@@ -247,12 +247,13 @@ class ZenListener(sublime_plugin.EventListener):
                            CSS_PSEUDO_CLASSES if
                            not prefix or p.startswith(prefix[0].lower() ) ]
             elif selector.startswith('.'):
+                return []
                 # return []
                 return [(selector, v, v) for v in 
-                     map(view.substr, [
-                     r for r in view.find_by_selector('source.css '
-                    'meta.selector.css entity.other.attribute-name.class.css')
-                     if not r.contains(pos)] )]
+                     set(map(view.substr, [
+                         r for r in view.find_by_selector('source.css '
+                       'meta.selector.css entity.other.attribute-name.class.css')
+                          if not r.contains(pos)] ))]
             else:
                 return elements
 
