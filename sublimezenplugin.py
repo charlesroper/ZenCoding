@@ -246,6 +246,13 @@ class ZenListener(sublime_plugin.EventListener):
                 return [ ( prefix, (':' + p), p.replace('|', '$1') ) for p in
                            CSS_PSEUDO_CLASSES if
                            not prefix or p.startswith(prefix[0].lower() ) ]
+            elif selector.startswith('.'):
+                # return []
+                return [(selector, v, v) for v in 
+                     map(view.substr, [
+                     r for r in view.find_by_selector('source.css '
+                    'meta.selector.css entity.other.attribute-name.class.css')
+                     if not r.contains(pos)] )]
             else:
                 return elements
 
@@ -329,8 +336,8 @@ class ZenListener(sublime_plugin.EventListener):
 
                 abbr = zencoding.actions.basic.find_abbreviation(editor)
                 oq_debug('abbr: %r' % abbr)
-
-                if abbr and not view.match_selector(locations[0], HTML_INSIDE_TAG):
+                if abbr and not view.match_selector( locations[0], 
+                                                     HTML_INSIDE_TAG ):
                     result = expand_abbr(abbr)
                     oq_debug('expand_abbr abbr: %r result: %r' % (abbr, result))
 
