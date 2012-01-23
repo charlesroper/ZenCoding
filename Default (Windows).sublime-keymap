@@ -215,7 +215,7 @@
   },
 {
     "keys": [
-      "ctrl+alt+n"
+      "ctrl+alt+m"
     ],
     "__doc__": "Moves caret to matching opening or closing tag\n",
     "args": {
