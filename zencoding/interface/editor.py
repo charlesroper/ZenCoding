@@ -184,7 +184,8 @@ class ZenEditor():
             if 'xsl' in scope:
                 doc_type = 'xsl'
             else:
-                doc_type = re.findall(r'\bhtml|js|css|xml|haml\b', scope)[0]
+                doc_type = re.findall(r'\bhtml|js|css|xml|haml|stylus\b', scope)[0]
+                # if doc_type == 'stylus': doc_type = 'css'
                 # Sublime has back to front scopes ....
         except:
             doc_type = default_type

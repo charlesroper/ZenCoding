@@ -42,7 +42,7 @@ HTML_INSIDE_TAG_ATTRIBUTE = 'text.html meta.tag string'
 
 HTML_NOT_INSIDE_TAG       = 'text.html - meta.tag'
 
-CSS          = 'source.css, source.scss'
+CSS          = 'source.css, source.scss, source.stylus'
 CSS_PROPERTY = 'meta.property-list.css - meta.property-value.css'
 CSS_SELECTOR = 'meta.selector.css, source.css - meta, source.scss - meta'
 
