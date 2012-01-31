@@ -23,7 +23,7 @@ if WINDOWS:
         except UnicodeEncodeError:
             buf = create_unicode_buffer(512)
             if (windll.kernel32
-                          .GetShortPathNameW(unicode_file_name, buf, len(buf))):
+                      .GetShortPathNameW(unicode_file_name, buf, len(buf))):
                 return buf.value
             else:
                 return False
