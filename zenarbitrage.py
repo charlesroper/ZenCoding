@@ -39,7 +39,7 @@ def doop():
                 'version'           : sublime.version(),
                 'packages_path'     : sublime.packages_path(),
                 'channel'           : sublime.channel(),
-                'arbitrage_version' : 1,
+                'arbitrage_version' : 2,
 
                 'unicode_sys_path_problem' : (
                     WINDOWS and not
