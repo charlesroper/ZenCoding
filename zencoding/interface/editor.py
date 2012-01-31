@@ -26,7 +26,7 @@ def active_view():
 ################################################################################
 
 class ZenEditor():
-    def expand_abbr(self, abbr, syntax = None, selection=True, 
+    def expand_abbr(self, abbr, syntax = None, selection=True,
                                                super_profile=None):
 
         syntax       = syntax or self.get_syntax()
@@ -74,7 +74,7 @@ class ZenEditor():
         zen_editor.create_selection(15)
         """
 
-        
+
         view = active_view()
         view.sel().clear()
 
@@ -150,8 +150,14 @@ class ZenEditor():
 
         self.create_selection(start, end)
 
-        value = value.replace('$', r'\$')
-        value = self.add_placeholders(value, selection=0, explicit_zero=zero_stops)
+        # print value
+        if self.get_syntax() != 'css':
+            value = value.replace('$', r'\$')
+
+        value = self.add_placeholders(value,
+            selection     = 0, 
+            explicit_zero = zero_stops
+        )
 
         if '\n' in value:
             for sel in view.sel():

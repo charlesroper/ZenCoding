@@ -3,6 +3,9 @@
 
 # Std Libs
 import operator
+import os
+
+from os.path import join, dirname
 
 # Sublime Libs
 import sublime
@@ -124,13 +127,19 @@ if int(sublime.version()) >= 2092:
 
 ################################### ARBITRAGE ##################################
 
-if zen_settings.get('zenarbitrage'):
-    from zenarbitrage import doop
-    doop()
+try:
+    arbited
+except NameError:
+    arbited = True
+    if zen_settings.get('zenarbitrage'):
+        from zenarbitrage import doop
+        doop()
 
 ######################## REMOVE HTML/HTML_COMPLETIONS.PY #######################
 
 def remove_html_completions():
+    import sublime_plugin
+
     for completer in "TagCompletions", "HtmlCompletions":
         try:
             import html_completions
@@ -145,7 +154,8 @@ def remove_html_completions():
                 debug('on_query_completion: removing: %s' % cm)
                 del completions[i]
 
-        debug('on_query_completion: callbacks: %r' % completions)
+        # The funky loader
+        if debug: debug('on_query_completion: callbacks: %r' % completions)
 
 sublime.set_timeout(remove_html_completions, 2000)
 
@@ -255,7 +265,7 @@ class ZenListener(sublime_plugin.EventListener):
             elif selector.startswith('.'):
                 return []
                 # return []
-                return [(selector, v, v) for v in 
+                return [(selector, v, v) for v in
                      set(map(view.substr, [
                          r for r in view.find_by_selector('source.css '
                        'meta.selector.css entity.other.attribute-name.class.css')
@@ -306,7 +316,7 @@ class ZenListener(sublime_plugin.EventListener):
 
         # A mapping of scopes, sub scopes and handlers, first matching of which
         # is used.
-        COMPLETIONS = (  
+        COMPLETIONS = (
             (CSS_SELECTOR,              self.css_selectors),
             (CSS_VALUE,                 self.css_property_values),
             (HTML_INSIDE_TAG,           self.html_elements_attributes),
@@ -343,7 +353,7 @@ class ZenListener(sublime_plugin.EventListener):
 
                 abbr = zencoding.actions.basic.find_abbreviation(editor)
                 oq_debug('abbr: %r' % abbr)
-                if abbr and not view.match_selector( locations[0], 
+                if abbr and not view.match_selector( locations[0],
                                                      HTML_INSIDE_TAG ):
                     result = expand_abbr(abbr)
                     oq_debug('expand_abbr abbr: %r result: %r' % (abbr, result))
