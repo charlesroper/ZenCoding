@@ -44,6 +44,9 @@ import zencoding.zen_settings
 from zencoding.interface.editor import ZenEditor
 from zentrackers import back_track, track_regex, track_scope
 
+import zenarbitrage
+zenarbitrage
+
 ################################### CONSTANTS ##################################
 
 CSS_PROP     = 'meta.property-list.css meta.property-name.css'
