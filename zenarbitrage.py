@@ -27,7 +27,6 @@ if WINDOWS:
                 return buf.value
             else:
                 return False
-
 def doop():
     def do_report():
         data = {

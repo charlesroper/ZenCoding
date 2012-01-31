@@ -417,7 +417,7 @@
 },
 {
   "keys": [
-    "ctrl+alt+shift+v"
+    "ctrl+alt+shift+f10"
   ],
   "__doc__": "Reflect CSS value: takes rule's value under caret and pastes it for the same \nrules with vendor prefixes\n@param editor: ZenEditor",
   "args": {
