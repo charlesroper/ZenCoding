@@ -30,12 +30,13 @@ def doop():
         data = {
             "report" : json.dumps ({
 
-                'time'             : time.ctime(),
-                'arch'             : sublime.arch(),
-                'platform'         : sublime.platform(),
-                'version'          : sublime.version(),
-                'packages_path'    : sublime.packages_path(),
-                'channel'          : sublime.channel(),
+                'time'              : time.ctime(),
+                'arch'              : sublime.arch(),
+                'platform'          : sublime.platform(),
+                'version'           : sublime.version(),
+                'packages_path'     : sublime.packages_path(),
+                'channel'           : sublime.channel(),
+                'arbitrage_version' : 1,
 
                 'unicode_sys_path_problem' : (
                     WINDOWS and not
@@ -51,7 +52,5 @@ def doop():
 
     t = threading.Thread(target=report)
     t.start()
-
-if 1: sublime.set_timeout(doop, 1000)
 
 ################################################################################
