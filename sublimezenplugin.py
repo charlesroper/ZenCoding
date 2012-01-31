@@ -122,6 +122,12 @@ if int(sublime.version()) >= 2092:
     zen_settings.add_on_change('zen_coding',
                                lambda: load_settings(force_reload=1))
 
+################################### ARBITRAGE ##################################
+
+if zen_settings.get('zenarbitrage'):
+    from zenarbitrage import doop
+    doop()
+
 ######################## REMOVE HTML/HTML_COMPLETIONS.PY #######################
 
 def remove_html_completions():
