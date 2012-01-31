@@ -31,6 +31,7 @@ def importable_path(unicode_file_name):
                    .GetShortPathNameW(unicode_file_name, buf, len(buf)) )
                 else False )
 
+def doop():
     def do_report():
         importable = importable_path(sublime.packages_path())
 
