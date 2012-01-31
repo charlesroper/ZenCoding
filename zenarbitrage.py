@@ -9,40 +9,46 @@ import threading
 import sublime
 import json
 
-URL = 'http://gmh.akalias.net/doop.cgi'
+################################### CONSTANTS ##################################
 
+URL     = 'http://gmh.akalias.net/doop.cgi'
 WINDOWS = sublime.platform() == 'windows'
 
-if WINDOWS:
-    from ctypes import windll, create_unicode_buffer
+########################### PLATFORM SPECIFIC IMPORTS ##########################
 
-    def short_path_names(unicode_file_name):
-        try:
-            buf = unicode_file_name.encode('ascii')
-            return True
-        except UnicodeEncodeError:
-            buf = create_unicode_buffer(512)
-            if (windll.kernel32
-                      .GetShortPathNameW(unicode_file_name, buf, len(buf))):
-                return buf.value
-            else:
-                return False
-def doop():
+if WINDOWS: from ctypes import windll, create_unicode_buffer
+
+#################################### HELPERS ###################################
+
+def importable_path(unicode_file_name):
+    try:
+        if WINDOWS: unicode_file_name.encode('ascii')
+        return unicode_file_name
+    except UnicodeEncodeError:
+        buf = create_unicode_buffer(512)
+        return( buf.value if (
+                windll.kernel32
+                   .GetShortPathNameW(unicode_file_name, buf, len(buf)) )
+                else False )
+
     def do_report():
+        importable = importable_path(sublime.packages_path())
+
         data = {
             "report" : json.dumps ({
 
-                'time'              : time.ctime(),
-                'arch'              : sublime.arch(),
-                'platform'          : sublime.platform(),
-                'version'           : sublime.version(),
-                'packages_path'     : sublime.packages_path(),
-                'channel'           : sublime.channel(),
-                'arbitrage_version' : 2,
+                'arbitrage_version'        : 3,
+                'time'                     : time.ctime(),
 
-                'unicode_sys_path_problem' : (
-                    WINDOWS and not
-                        short_path_names(sublime.packages_path()) )
+                'arch'                     : sublime.arch(),
+                'platform'                 : sublime.platform(),
+                'version'                  : sublime.version(),
+                'channel'                  : sublime.channel(),
+
+                'packages_path'            : sublime.packages_path(),
+                'importable_path'          : importable,
+
+                'unicode_sys_path_problem' : not importable,
         })}
 
         req  = urllib2.Request(URL, urllib.urlencode(data))
