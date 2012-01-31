@@ -22,8 +22,11 @@ if WINDOWS:
             return True
         except UnicodeEncodeError:
             buf = create_unicode_buffer(512)
-            return (windll.kernel32
-                          .GetShortPathNameW(unicode_file_name, buf, len(buf)))
+            if (windll.kernel32
+                          .GetShortPathNameW(unicode_file_name, buf, len(buf))):
+                return buf.value
+            else:
+                return False
 
 def doop():
     def do_report():
