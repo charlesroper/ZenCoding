@@ -279,7 +279,7 @@ class ZenListener(sublime_plugin.EventListener):
     def html_elements_attributes(self, view, prefix, pos):
         tag         = find_tag_name(view, pos)
         values      = HTML_ELEMENTS_ATTRIBUTES.get(tag, [])
-        return [(v,   '%s\t@%s' % (v,v), '%s="$1" ' % v) for v in values]
+        return [(v,   '%s\t@%s' % (v,v), '%s="$1"' % v) for v in values]
 
     def html_attributes_values(self, view, prefix, pos):
         attr        = find_attribute_name(view, pos)
