@@ -119,7 +119,8 @@ class ZenEditor():
         view = active_view()
         return view.substr(view.line(view.sel()[0]))
 
-    def replace_content(self, value, start=None, end=None, zero_stops=False):
+    def replace_content(self, value, start=None, end=None, zero_stops=False, 
+                              escape = True):
         """
         Replace editor's content or it's part (from *start* to
         *end* index). If *value* contains
@@ -151,7 +152,7 @@ class ZenEditor():
         self.create_selection(start, end)
 
         # print value
-        if self.get_syntax() != 'css':
+        if escape:
             value = value.replace('$', r'\$')
 
         value = self.add_placeholders(value,
