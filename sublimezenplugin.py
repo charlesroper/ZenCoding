@@ -3,6 +3,8 @@
 
 # Std Libs
 import operator
+import os
+import sys
 
 # Sublime Libs
 import sublime
@@ -29,6 +31,9 @@ from zenmeta    import ( CSS_PROP_VALUES, HTML_ELEMENTS_ATTRIBUTES,
 from zencoding.html_matcher import last_match
 
 ################################### CONSTANTS ##################################
+
+PACKAGE_NAME = os.path.basename(os.getcwdu())
+ZEN_GRAMMAR = "Packages/%s/ZenCoding.tmLanguage" % PACKAGE_NAME
 
 HTML                      = 'text.html - source'
 XML                       = 'text.xml'
@@ -101,8 +106,11 @@ Installation Docs
 
 def debug(f):
     if zen_settings.get('debug'):
-        sublime.log_commands(True)
-        print 'ZenCoding:', f
+        # sublime.log_commands(True)
+        frame = sys._getframe(1)
+        if 'debug' in frame.f_code.co_name : frame = sys._getframe(2)
+        line = frame.f_lineno
+        print 'debug:ZenCoding.%s:%s:' % (__name__, line), f
 
 def oq_debug(f):
     debug("on_query_completions %s" % f)
@@ -155,10 +163,10 @@ sublime.set_timeout(remove_html_completions, 2000)
 
 ########################## DYNAMIC ZEN CODING SNIPPETS #########################
 
-
 class ZenAsYouType(CommandsAsYouTypeBase):
     default_input = 'div'
     input_message = "Enter Koan: "
+    grammar = ZEN_GRAMMAR
 
     def filter_input(self, abbr):
         try:
@@ -169,6 +177,7 @@ class ZenAsYouType(CommandsAsYouTypeBase):
 class WrapZenAsYouType(CommandsAsYouTypeBase):
     default_input = 'div'
     input_message = "Enter Haiku: "
+    grammar = ZEN_GRAMMAR
 
     def run_command(self, view, cmd_input):
         try:
@@ -331,7 +340,12 @@ class ZenListener(sublime_plugin.EventListener):
 
                 completions = handler(view, prefix, pos)
                 oq_debug('completions: %r' % completions)
-                if completions: return completions
+                if completions:
+                    if h_name == 'css_selectors':
+                        return completions
+                    else:
+                        return (completions, NO_BUF | NO_PLUG)
+
 
         do_zen_expansion = True
         html_scope_for_zen = ("text.html meta.tag "
@@ -416,7 +430,7 @@ class ZenListener(sublime_plugin.EventListener):
                     word_separators = view.settings().get('word_separators')
                     view.settings().set('word_separators', '')
                     sublime.set_timeout(
-                        lambda: view.settings().set(
+                        lambda: view.settings().set (
                                 'word_separators', word_separators), 0)
                     return False
                 debug('is_zen context enabled')
