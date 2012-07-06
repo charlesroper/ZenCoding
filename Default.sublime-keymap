@@ -24,7 +24,7 @@
 },
 {
   "keys": [
-    "ctrl+alt+enter"
+    "ctrl+alt+enters"
   ],
   "command": "wrap_zen_as_you_type",
   "context": [
@@ -38,7 +38,7 @@
 },
 {
   "keys": [
-    "ctrl+alt+enter"
+    "ctrl+alt+enters"
   ],
   "command": "wrap_zen_as_you_type",
   "context": [
@@ -215,7 +215,7 @@
   },
 {
     "keys": [
-      "ctrl+alt+m"
+      "ctrl+alt+n"
     ],
     "__doc__": "Moves caret to matching opening or closing tag\n",
     "args": {
@@ -417,7 +417,7 @@
 },
 {
   "keys": [
-    "ctrl+alt+shift+f10"
+    "ctrl+alt+shift+v"
   ],
   "__doc__": "Reflect CSS value: takes rule's value under caret and pastes it for the same \nrules with vendor prefixes\n@param editor: ZenEditor",
   "args": {
@@ -643,6 +643,7 @@
     {"operand": true, "operator": "equal", "key": "setting.auto_id_class"}
   ]
 },
+
 {
   "__doc__": "Override for the binding in CSS/*.sublime-keymap",
   "keys": [
@@ -676,5 +677,11 @@
       "match_all": true,
       "key": "following_text"
     }]
-  }
+  },
+
+  {"keys" : ["tab"], "command": "noop", "context" : [
+    // word_separators workaround
+      {"operand": true, "operator": "regex_match", "key": "is_zen"}
+  ]}
+
 ]
