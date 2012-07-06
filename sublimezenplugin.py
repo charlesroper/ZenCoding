@@ -3,9 +3,6 @@
 
 # Std Libs
 import operator
-import os
-
-from os.path import join, dirname
 
 # Sublime Libs
 import sublime
@@ -45,7 +42,7 @@ HTML_INSIDE_TAG_ATTRIBUTE = 'text.html meta.tag string'
 
 HTML_NOT_INSIDE_TAG       = 'text.html - meta.tag'
 
-CSS          = 'source.css, source.scss, source.stylus'
+CSS          = 'source.css, source.scss'
 CSS_PROPERTY = 'meta.property-list.css - meta.property-value.css'
 CSS_SELECTOR = 'meta.selector.css, source.css - meta, source.scss - meta'
 
@@ -55,6 +52,9 @@ CSS_PREFIXER = 'meta.property-list.css, meta.selector.css'
 CSS_VALUE    = 'meta.property-list.css meta.property-value.css'
 
 CSS_ENTITY_SELECTOR = 'meta.selector.css entity.other.attribute-name'
+
+NO_PLUG = sublime.INHIBIT_EXPLICIT_COMPLETIONS
+NO_BUF  = sublime.INHIBIT_WORD_COMPLETIONS
 
 ZEN_SCOPE = ', '.join([HTML, XML, CSS])
 
@@ -297,6 +297,7 @@ class ZenListener(sublime_plugin.EventListener):
         return [(v, '%s\t@=%s' % (v,v), v) for v in values]
 
     def on_query_completions(self, view, prefix, locations):
+
         if ( not self.correct_syntax(view) or
              zen_settings.get('disable_completions', False) ): return []
 
@@ -353,7 +354,12 @@ class ZenListener(sublime_plugin.EventListener):
                     oq_debug('expand_abbr abbr: %r result: %r' % (abbr, result))
 
                     if result:
-                        return [(abbr, result, result)]
+                        return  (
+
+                             [(abbr, result, result)],
+                             # 0,
+                             NO_BUF| NO_PLUG
+                        )
 
             except ZenInvalidAbbreviation:
                 pass
@@ -396,11 +402,23 @@ class ZenListener(sublime_plugin.EventListener):
                 return result
 
     def on_query_context(self, view, key, op, operand, match_all):
-        if key == 'is_zen':
+        if key == "return_false":
+            return False
+
+        elif key == 'is_zen':
             debug('checking iz_zen context')
             context = ZenListener.check_context(view)
 
             if context is not None:
+                if op == sublime.OP_REGEX_MATCH:
+                    # this is a quick hack to allow the default tab binding
+                    # to work
+                    word_separators = view.settings().get('word_separators')
+                    view.settings().set('word_separators', '')
+                    sublime.set_timeout(
+                        lambda: view.settings().set(
+                                'word_separators', word_separators), 0)
+                    return False
                 debug('is_zen context enabled')
                 return True
             else:
