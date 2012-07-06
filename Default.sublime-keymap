@@ -24,7 +24,7 @@
 },
 {
   "keys": [
-    "ctrl+alt+enters"
+    "ctrl+alt+enter"
   ],
   "command": "wrap_zen_as_you_type",
   "context": [
@@ -38,7 +38,7 @@
 },
 {
   "keys": [
-    "ctrl+alt+enters"
+    "ctrl+alt+enter"
   ],
   "command": "wrap_zen_as_you_type",
   "context": [
@@ -681,7 +681,14 @@
 
   {"keys" : ["tab"], "command": "noop", "context" : [
     // word_separators workaround
-      {"operand": true, "operator": "regex_match", "key": "is_zen"}
+
+    {
+      "operand": "source.css - source.css.embedded, text.xml, text.html -source -meta.tag, meta.scope.between-tag-pair.html -source",
+      "operator": "equal",
+      "match_all": true,
+      "key": "selector"
+    },
+    {"operand": true, "operator": "regex_match", "key": "is_zen"}
   ]}
 
 ]
