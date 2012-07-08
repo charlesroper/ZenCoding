@@ -472,9 +472,10 @@ class SetHtmlSyntaxAndInsertSkel(sublime_plugin.TextCommand):
     def run(self, edit, doctype=None):
         view     = self.view
         syntax   = zen_settings.get( 'default_html_syntax',
-                                     'Packages/HTML/HTML.tmlanguage' )
+                                     'Packages/HTML/HTML.tmLanguage' )
         view.set_syntax_file(syntax)
         view.run_command( 'insert_snippet',
-                          {'contents': expand_abbr('html:%s' % doctype)} )
+                {'contents': expand_abbr('html:%s' % doctype)} )
+
 
 ################################################################################A

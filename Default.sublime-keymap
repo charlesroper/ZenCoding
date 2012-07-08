@@ -1,4 +1,4 @@
-[{"args": {"doctype": "xt"},
+[{"args": {"doctype": "5"},
   "command": "set_html_syntax_and_insert_skel",
   "keys": ["ctrl+alt+shift+h"]},
  {"args": {},
