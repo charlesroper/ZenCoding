@@ -374,7 +374,7 @@ class ZenListener(sublime_plugin.EventListener):
 
                              [(abbr, result, result)],
                              # 0,
-                             NO_BUF| NO_PLUG
+                             NO_BUF #| NO_PLUG
                         )
 
             except ZenInvalidAbbreviation:
