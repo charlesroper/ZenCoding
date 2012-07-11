@@ -61,7 +61,7 @@
   "command": "run_zen_action",
   "context": [{"key": "selector",
                "match_all": true,
-               "operand": "text.html",
+               "operand": "text.html, source.css, source.scss",
                "operator": "equal"}],
   "keys": ["ctrl+shift+alt+6"]},
  {"args": {},
